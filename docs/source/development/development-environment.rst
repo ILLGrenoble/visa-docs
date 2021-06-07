@@ -1,7 +1,7 @@
-VISA Development Environment
-----------------------------
+Development Environment
+-----------------------
 
-- Running visa in a development mode
+- Running VISA in a development mode
 - debugging
 
 

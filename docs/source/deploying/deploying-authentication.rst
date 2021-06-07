@@ -1,5 +1,5 @@
-VISA Authentication
--------------------
+Authentication
+--------------
 
 - OpenIDConnect
 - Keycloak configuration

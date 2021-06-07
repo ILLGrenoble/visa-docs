@@ -1,5 +1,5 @@
-VISA Administration
-===================
+Administration
+==============
 
 This section describes the administration of a running VISA platform.
 
