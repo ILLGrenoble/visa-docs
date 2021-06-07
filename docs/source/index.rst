@@ -16,11 +16,3 @@ VISA documentation
    development/development-contents.rst
    deploying/deploying-contents.rst
    admin/admin-contents.rst
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
