@@ -1,6 +1,4 @@
-Load balancing
---------------
-
+# Load balancing
 
 - System architecture
 - Nginx round-robin load balancer

@@ -1,5 +1,4 @@
-Docker Compose Deployment
-=========================
+# Docker Compose Deployment
 
 This section describes how to deploy the VISA platform using docker-compose.
 

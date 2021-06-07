@@ -1,14 +1,15 @@
-Deploying VISA
-==============
+# Deploying
 
-.. toctree::
-   :maxdepth: 1
-
-   ./deploying-authentication.rst
-   ./deploying-database.rst
-   ./deploying-env-vars.rst
-   ./deploying-docker-compose.rst
-   ./deploying-load-balancing.rst
+```{toctree}
+---
+maxdepth: 1
+---
+deploying-authentication.md
+deploying-database.md
+deploying-env-vars.md
+deploying-docker-compose.md
+deploying-load-balancing.md
+```
 
 This section describes how to deploy the VISA platform.
 
