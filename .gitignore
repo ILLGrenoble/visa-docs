@@ -1,3 +1,4 @@
 .sphinx
 docs/build
+docs/_build
 
