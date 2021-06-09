@@ -29,8 +29,7 @@ deploying/deploying-contents.md
 admin/admin-contents.md
 ```
 
-## Achknowledgements
-
+## Acknowledgements
 
 <p align="center">
   <img src="_static/images/panosc.png" width="200px"/>
