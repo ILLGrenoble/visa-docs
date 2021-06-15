@@ -1,10 +1,10 @@
 # Requirements
 
-Belowi is a list of requirements necessary to run VISA:
+Below is a list of requirements necessary to run VISA:
 
 - **The fully deployed VISA application with a reverse proxy to manage the different end points**
 
-  Assistance is given here with example *docker-compose* files to deploy the Docker containers.
+  Assistance is given here with example *docker-compose* files to deploy the Docker containers. The application has to be properly configured too: a rich set of environment variables are available to customise VISA.
 
 - **An OpenStack cloud infrastucture**
 
