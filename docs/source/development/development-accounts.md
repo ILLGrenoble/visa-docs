@@ -94,11 +94,28 @@ A [default attribute provider](https://github.com/ILLGrenoble/visa-accounts/blob
 | ```getEmail```     | Mandatory      | Optional       | ```email```              |
 | ```getAccountParameters```     | Optional      | Optional       |               |
 
-### Testing
+## Testing
 
-To test the attribute provider a local instances of the VISA API Server and VISA Web UI need to be run also. VISA API Server needs to be configured with both the SSO endpoint and also the VISA Accounts endpoint.
+To test the attribute provider a local version of VISA Accounts, the VISA API Server and VISA Web UI need to be run. The easiest way to do this is to use docker-compose to run the containerised version of VISA API Server and VISA Web and to use the ```VISA_ACCOUNTS_SERVICE_CLIENT_URL``` environment variable to point to the local development version. Your implementation of the attribute provider can be linked to the container using a volume mount. VISA API Server also needs to be configured with both the SSO endpoint and the loval VISA Accounts endpoint.
 
-The easiest way to do this is to use docker-compose to run the containerised version of VISA API Server and VISA Web and to use the ```VISA_ACCOUNTS_SERVICE_CLIENT_URL``` environment variable to point to the local development version.
+You can find more information about docker-compose in the [deploying](docker_compose_deployment) section.
 
-You can find more information in the deployment section about [configuring](environment_variables) and [deploying](docker_compose_deployment) VISA.
+### Environment variables
+
+The following environment variables are used to configure VISA Accounts and can be placed in a dotenv file:
+
+| Environment variable | Default value | Usage |
+| ---- | ---- | ---- |
+| VISA_ACCOUNTS_SERVER_PORT | 4000 | The port on which to run the server |
+| VISA_ACCOUNTS_SERVER_HOST | localhost | The hostname on which the server is listening on |
+| VISA_ACCOUNTS_IDP | | URL to the OpenID discovery endpoint (eg https://server.com/.well-known/openid-configuration) |
+| VISA_ACCOUNTS_CLIENT_ID | | The Client ID as configured by the OpenID provider
+| VISA_ACCOUNTS_ATTRIBUTE_PROVIDER | | Absolute or relative path to the attribute provider |
+| VISA_ACCOUNTS_LOG_LEVEL | 'info' | Application logging level |
+| VISA_ACCOUNTS_LOG_TIMEZONE |  | The timezone for the formatting the time in the application log |
+| VISA_ACCOUNTS_LOG_SYSLOG_HOST |  | The syslog host (optional) |
+| VISA_ACCOUNTS_LOG_SYSLOG_PORT |  | The syslog port (optional) |
+| VISA_ACCOUNTS_LOG_SYSLOG_APP_NAME |  | The syslog application name (optional) |
+
+You can find more information in the deployment section about the [full configuration](environment_variables) of VISA.
 
