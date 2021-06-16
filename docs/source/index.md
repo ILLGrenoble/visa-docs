@@ -29,6 +29,14 @@ deploying/deploying-contents.md
 admin/admin-contents.md
 ```
 
+```{toctree}
+---
+maxdepth: 2
+caption: Source code
+---
+contributing/contributing-contents.md
+```
+
 ## Acknowledgements
 
 <p align="center">

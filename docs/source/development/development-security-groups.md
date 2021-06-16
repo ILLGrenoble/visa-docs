@@ -44,11 +44,11 @@ This micro service has to implement a single endpoint:
 
 | Method | Endpoint example          | Body | Returned Data   | Status Code | Description                            |
 |--------|---------------------|------|-----------------|-------------|----------------------------------------|
-| GET    | /api/securitygroups |      | SecurityGroup[] | 200         | Returns a list of security group names |
+| POST    | /api/securitygroups | Instance     | SecurityGroup[] | 200         | Returns a list of security group names |
 
 The exact path of the endpoint can be defined by each site: VISA has a configuration value (for a full URL) where this can be set.
 
-## Authorization token
+## Authorisation token
 
 If you wish to a layer of security to your micro-service and ensure on specific clients can access it, you can check the value of the ```x-auth-token``` header parameter within the service.
 
