@@ -42,8 +42,6 @@ Different roles are associated to different users which can either be related to
 | IT_SUPPORT           | function    | Any person from the IT service can provide support to the portal users                                                                              |
 | SCIENTIFIC_COMPUTING | function    | A scientific computing specialist can provider support to users for the data analysis software                                                      |
 | STAFF                | function    | All staff at the facility have different access rights to external users (for example for instance lifetimes or security groups)                    |
-| STAKEHOLDER          | application | A stakeholder can obtain realtime figures on portal usage and long term statistical analysis of usage                                               |
-|                      |             |                                                                                                                                                     |
 
 #### Facility Data
 
@@ -61,7 +59,91 @@ Associating an instance to facility data is important for:
 - providing scientific support to external users depending on the instrument
 - statistical analysis
 
-VISA has a simple model for this based around an Experiment. No team roles are included here (meaning that explicit users can also be associated to an experiment even if they weren't on the original team).
+VISA has a simple model for this based around an Experiment. No *team roles* (ie principal investigator, local contact, etc) are included here (meaning that explicit users can also be associated to an experiment even if they weren't on the original team).
 
 ### Table Structure
 
+The following sections are the tables that need data to be injected and the structure of these tables is included.
+
+### users
+
+| Column | type | Constraints |
+|---|---|---|
+|    id          |   varchar(250) | not null, primary key
+|    email        |  varchar(100)
+|    first_name   |  varchar(100)
+|    instance_quota | integer    |  not null
+|    last_name    |  varchar(100) | not null
+|    last_seen_at |  timestamp
+|    affiliation_id | bigint | constraint fk_employer_id references employer
+|    activated_at |  timestamp
+|    activated |     timestamp
+
+### employer
+
+| Column | type | Constraints |
+|---|---|---|
+|    id        |   bigint | not null, primary key
+|    country_code | varchar(10)
+|    name   |      varchar(200)
+|    town  |       varchar(100)
+
+### user_role
+
+| Column | type | Constraints |
+|---|---|---|
+|    user_id | varchar(250) | not null, constraint fk_users_id references users
+|    role_id | bigint       | not null, constraint fk_role_id references role
+
+
+### instrument
+
+| Column | type | Constraints |
+|---|---|---|
+|    id  | bigint  |       not null, primary key
+|    name | varchar(250) | not null
+
+### cycle
+
+| Column | type | Constraints |
+|---|---|---|
+|    id  |       bigint       |  not null, primary key
+|    end_date |  timestamp(6) | not null
+|    name    |   varchar(100) | not null
+|    start_date | timestamp(6) | not null
+
+
+### proposal
+
+| Column | type | Constraints |
+|---|---|---|
+|    id       |  bigint   |      not null, primary key
+|    identifier | varchar(100) |  not null
+|    title |     varchar(2000)
+|    public_at |  timestamp
+|    summary |   varchar(5000)
+
+### experiment
+
+| Column | type | Constraints |
+|---|---|---|
+|    id         |   varchar(32) | not null, primary key
+|    cycle_id    |  bigint    |  not null, constraint fk_cycle_id references cycle
+|    instrument_id | bigint  |    not null, constraint fk_instrument_id references instrument
+|    proposal_id  | bigint   |   not null, constraint fk_proposal_id references proposal
+|    end_date    |  timestamp
+|    start_date   | timestamp
+
+### experiment_user
+
+| Column | type | Constraints |
+|---|---|---|
+|    experiment_id  | varchar(32) | not null, constraint fk_experiment_id references experiment
+|    user_id      | varchar(250) | not null, constraint fk_users_id references users
+
+### instrument_scientist
+
+| Column | type | Constraints |
+|---|---|---|
+|    instrument_id | bigint     |  not null, constraint fk_instrument_id references instrument
+|    user_id |      varchar(250)  | not null, constraint fk_users_id references users
