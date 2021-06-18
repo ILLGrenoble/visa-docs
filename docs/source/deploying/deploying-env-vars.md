@@ -59,48 +59,48 @@ The email appender is used only for error logs, to allow for quick notification 
 
 | Environment variable | Default | Description |
 |---|---|---|
-| VISA_LOGGING_SYSLOG_HOST |   |   |
-| VISA_LOGGING_SYSLOG_PORT | 514  |   |
-| VISA_LOGGING_SYSLOG_FACILITY | local0  |   |
-| VISA_LOGGING_SYSLOG_THRESHOLD | INFO  |   |
-| VISA_LOGGING_SYSLOG_FORMAT |   |   |
+| VISA_LOGGING_SYSLOG_HOST |   | The Syslog host  |
+| VISA_LOGGING_SYSLOG_PORT | 514  | The Syslog port  |
+| VISA_LOGGING_SYSLOG_FACILITY | local0  |  The Syslog facility|
+| VISA_LOGGING_SYSLOG_THRESHOLD | INFO  |  The Syslog logging level |
+| VISA_LOGGING_SYSLOG_FORMAT |   |  The Syslog log format |
 
 ### VISA web services
 
 | Environment variable | Default | Description |
 |---|---|---|
-| VISA_ACCOUNTS_SERVICE_CLIENT_URL |   |   |
-| VISA_SECURITY_GROUP_SERVICE_CLIENT_ENABLED | false  |   |
-| VISA_SECURITY_GROUP_SERVICE_CLIENT_URL |   |   |
-| VISA_SECURITY_GROUP_SERVICE_CLIENT_AUTH_TOKEN |   |   |
+| VISA_ACCOUNTS_SERVICE_CLIENT_URL |   | The VISA Accounts authentication URL eg http://accounts:8089/api/authenticate |
+| VISA_SECURITY_GROUP_SERVICE_CLIENT_ENABLED | false  | Enables the use of the VISA Security Group micro service  |
+| VISA_SECURITY_GROUP_SERVICE_CLIENT_URL |   |  The VISA Security Group Service URL eg http://security-groups:8090/api/securitygroups |
+| VISA_SECURITY_GROUP_SERVICE_CLIENT_AUTH_TOKEN |   |  The authentication token to send to the Security Group service |
 
 ### OpenStack cloud provider
 
 | Environment variable | Default | Description |
 |---|---|---|
-| VISA_CLOUD_IDENTITY_ENDPOINT |   |   |
-| VISA_CLOUD_COMPUTE_ENDPOINT |   |   |
-| VISA_CLOUD_IMAGE_ENDPOINT |   |   |
-| VISA_CLOUD_APPLICATION_ID |   |   |
-| VISA_CLOUD_APPLICATION_SECRET |   |   |
-| VISA_CLOUD_ADDRESS_PROVIDER |   |   |
-| VISA_CLOUD_ADDRESS_PROVIDER_UUID |   |   |
-| VISA_CLOUD_SERVER_NAME_PREFIX |   |   |
+| VISA_CLOUD_IDENTITY_ENDPOINT |   | The OpenStack identity endpoint  |
+| VISA_CLOUD_COMPUTE_ENDPOINT |   |  The OpenStack compute endpoint |
+| VISA_CLOUD_IMAGE_ENDPOINT |   |  The OpenStack image endpoint |
+| VISA_CLOUD_APPLICATION_ID |   |  The application ID to authorise VISA API Server to use the OpenStack API |
+| VISA_CLOUD_APPLICATION_SECRET |   |  The application secret to authorise VISA API Server to use the OpenStack API |
+| VISA_CLOUD_ADDRESS_PROVIDER |   |  The address provider name for instances in OpenStack |
+| VISA_CLOUD_ADDRESS_PROVIDER_UUID |   |  The address privider UURD for instances in OpenStack |
+| VISA_CLOUD_SERVER_NAME_PREFIX |   |  The prefix used for all instances created by VISA in OpenStack |
 
 ### Remote Desktop (virtual desktop infrastructure VDI)
 
 | Environment variable | Default | Description |
 |---|---|---|
-| VISA_VDI_ENABLED |  true |   |
-| VISA_VDI_HOST | localhost  |   |
-| VISA_VDI_PORT | 8087  |   |
-| VISA_VDI_CORS_ORIGIN |   |   |
-| VISA_VDI_PING_TIMEOUT | 15000  |   |
-| VISA_VDI_PING_INTERVAL | 3000  |   |
-| VISA_VDI_REDIS_ENABLED |  false |   |
-| VISA_VDI_REDIS_URL |   |   |
-| VISA_VDI_REDIS_PASSWORD |   |   |
-| VISA_VDI_REDIS_DATABASE |  0 |   |
+| VISA_VDI_ENABLED |  true | Enables the remote desktops in VISA  |
+| VISA_VDI_HOST | localhost  |  The hostname on which the Remote Desktop HTTP server is listening on |
+| VISA_VDI_PORT | 8087  |  The port on which to run the Remote Desktop HTTP server |
+| VISA_VDI_CORS_ORIGIN |   |  The CORS origin of the Remote Desktop HTTP server |
+| VISA_VDI_PING_TIMEOUT | 15000  |  The timeout for ping messages between the API Server and the client UI  |
+| VISA_VDI_PING_INTERVAL | 3000  |  The interval for sending ping messages to the client UI |
+| VISA_VDI_REDIS_ENABLED |  false |  Enables a Redis pub-sub server  |
+| VISA_VDI_REDIS_URL |   |  The URL of the Redis server (required for load balancing) |
+| VISA_VDI_REDIS_PASSWORD |   | The password for the Redis server (required for load balancing)  |
+| VISA_VDI_REDIS_DATABASE |  0 |  the database ID of the Redis server (required for load balancing) |
 | VISA_VDI_OWNER_DISCONNECTION_POLICY | DISCONNECT_ALL  |   |
 | VISA_VDI_CLEANUP_SESSIONS_ON_STARTUP | false  |   |
 | VISA_VDI_SIGNATURE_PRIVATE_KEY_PATH |   |   |
