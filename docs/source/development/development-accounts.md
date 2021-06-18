@@ -98,7 +98,7 @@ A [default attribute provider](https://github.com/ILLGrenoble/visa-accounts/blob
 
 To test the attribute provider a local version of VISA Accounts, the VISA API Server and VISA Web UI need to be run. The easiest way to do this is to use docker-compose to run the containerised version of VISA API Server and VISA Web and to use the ```VISA_ACCOUNTS_SERVICE_CLIENT_URL``` environment variable to point to the local development version. Your implementation of the attribute provider can be linked to the container using a volume mount. VISA API Server also needs to be configured with both the SSO endpoint and the loval VISA Accounts endpoint.
 
-You can find more information about docker-compose in the [deploying](docker_compose_deployment) section.
+You can find more information about docker-compose in the [deploying](deployment_docker_compose) section.
 
 ### Environment variables
 
@@ -117,5 +117,5 @@ The following environment variables are used to configure VISA Accounts and can 
 | VISA_ACCOUNTS_LOG_SYSLOG_PORT |  | The syslog port (optional) |
 | VISA_ACCOUNTS_LOG_SYSLOG_APP_NAME |  | The syslog application name (optional) |
 
-You can find more information in the deployment section about the [full configuration](environment_variables) of VISA.
+You can find more information in the deployment section about the [full configuration](deployment_environment_variables) of VISA.
 

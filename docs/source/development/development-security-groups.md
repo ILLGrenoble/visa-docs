@@ -61,4 +61,4 @@ To test the security group service a local version of the VISA API Server and VI
 -  ```VISA_SECURITY_GROUP_SERVICE_CLIENT_URL```: the URL of your local Security Group Service endpoint
 -  ```VISA_SECURITY_GROUP_SERVICE_CLIENT_AUTH_TOKEN```: the value of the *auth token* (if required by your implementation) to ensure that no unauthorised use of the service is made
 
-You can find more information about docker-compose in the [deploying](docker_compose_deployment) section.
+You can find more information about docker-compose in the [deploying](deployment_docker_compose) section.
