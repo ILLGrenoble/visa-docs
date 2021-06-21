@@ -69,7 +69,7 @@ The email appender is used only for error logs, to allow for quick notification 
 
 | Environment variable | Default | Description |
 |---|---|---|
-| VISA_ACCOUNTS_SERVICE_CLIENT_URL |   | The [VISA Accounts](development_accounts_title) authentication URL eg http://accounts:8089/api/authenticate |
+| VISA_ACCOUNTS_SERVICE_CLIENT_URL |   | The [VISA Accounts](development_accounts_service) authentication URL eg http://accounts:8089/api/authenticate |
 | VISA_SECURITY_GROUP_SERVICE_CLIENT_ENABLED | false  | Enables the use of the [VISA Security Group](development_security_groups) micro-service. This micro service provides site logic to determine the security groups for an instance.  |
 | VISA_SECURITY_GROUP_SERVICE_CLIENT_URL |   |  The VISA Security Group Service URL eg http://security-groups:8090/api/securitygroups |
 | VISA_SECURITY_GROUP_SERVICE_CLIENT_AUTH_TOKEN |   |  The authentication token to send to the Security Group service |
