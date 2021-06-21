@@ -1,3 +1,4 @@
+(development_accounts_title)=
 # Accounts Service
 
 ## Description
@@ -25,6 +26,7 @@ Different providers are necessary to obtain the account attributes as this can d
 
 An internal API written in JavaScript is therefore used to have an abstraction of the provider methods. An environment variable allows for the path to the concrete implementation of the attribute-provider API to be specified at runtime (Docker volume mounts can also be used to link a container to the provider file on the host machine).
 
+(development_accounts_attribute_provider)=
 ## Developing and integrating an attribute provider
 
 To integrate and attribute provider for a facility, a simple JavaScript file has to be linked to the application (specified using an environmnet variable). The interface of this javascript files is as follows:
