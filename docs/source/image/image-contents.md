@@ -4,6 +4,7 @@
 ---
 maxdepth: 1
 ---
+image-visa-pam.md
 image-jupyter.md
 ```
 
