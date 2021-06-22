@@ -65,6 +65,7 @@ The email appender is used only for error logs, to allow for quick notification 
 | VISA_LOGGING_SYSLOG_THRESHOLD | INFO  |  The Syslog logging level |
 | VISA_LOGGING_SYSLOG_FORMAT |   |  The Syslog log format |
 
+(deployment_environment_variables_web_services)=
 ### VISA web services
 
 | Environment variable | Default | Description |

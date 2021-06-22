@@ -108,7 +108,8 @@ The attribute provider (a simple javascript file) needs to be mounted to the VIS
 
 ### Adding a VISA Security Group service
 
+VISA allows for the addition of a micro-service to handle the logic of selecting [security groups](development_security_groups) for an instance. Ideally, to simplify the deployment, this micro-service should be dockerised and integrated into the same `docker-compose.yml` orchestration.
 
-
+As well as modifying `docker-compose.yml`, [environment variables](deployment_environment_variables_web_services) need to be set to link VISA API Server to this service.
 
 
