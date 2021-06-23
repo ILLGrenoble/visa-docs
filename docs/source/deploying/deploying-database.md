@@ -14,6 +14,10 @@ The database schema can also be created manually using <a href="../_static/files
 
 In both cases, the database has to have some data preloaded for the user roles and image protocols. The <a href="../_static/files/visa-db-fixtures.sql">database fixtures file</a> must be loaded.
 
+# Load balancing requirements
 
+In all cases, we recommend installing the database on a separate server to the VISA deployment. This isn't an absolute necessity but can simplify the maintenance of the system.
+
+However, when [load-balancing VISA](deployment_load_balancing) this becomes more important. As well as installing a database a Redis data store also has to be installed (used as a message broker) and it makes sense to combine the database and redis installation on the same server.
 
 

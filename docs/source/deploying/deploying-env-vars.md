@@ -88,6 +88,7 @@ The email appender is used only for error logs, to allow for quick notification 
 | VISA_CLOUD_ADDRESS_PROVIDER_UUID |   |  The address privider UURD for instances in OpenStack |
 | VISA_CLOUD_SERVER_NAME_PREFIX |   |  The prefix used for all instances created by VISA in OpenStack |
 
+(deployment_environment_variables_vdi)= 
 ### Remote Desktop (virtual desktop infrastructure VDI)
 
 | Environment variable | Default | Description |
