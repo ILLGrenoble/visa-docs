@@ -44,7 +44,7 @@ The following table shows the list of projects, the location of the source code 
 | VISA Jupyter Proxy | [visa-jupyter-proxy source](https://github.com/ILLGrenoble/visa-jupyter-proxy) | [visa-jupyter-proxy image](https://hub.docker.com/r/illgrenoble/visa-jupyter-proxy) |
 | VISA Accounts | [visa-accounts source](https://github.com/ILLGrenoble/visa-accounts) | [visa-accounts image](https://hub.docker.com/r/illgrenoble/visa-accounts) |
 
-Since the Security Groups micro-service needs to be developed at each site, the Docker image is not included in this list.
+Since the Security Groups micro-service needs to be developed at each site, the Docker image is not included in this list. However, the source code for an [example Security Groups service](https://github.com/ILLGrenoble/visa-security-groups-example) is available to help in the development process.
 
 ### VISA endpoints
 
