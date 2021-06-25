@@ -1,3 +1,4 @@
+(deploying_database)=
 # Database
 
 VISA uses a relational database to store information about the compute instances (instances, images, flavours, sessions, members, experiments) and also for user and facility data.

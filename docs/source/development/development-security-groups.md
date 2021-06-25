@@ -55,6 +55,14 @@ If you wish to a layer of security to your micro-service and ensure on specific 
 
 VISA API Server can be configured to add this header parameter to each HTTP request made to the Security Group Service.
 
+## Example project
+
+To get started on writing a VISA Security Groups micro-service, an [example project](https://github.com/ILLGrenoble/visa-security-groups-example) is available. 
+
+This project is not intended for use *as is* in a production environment but could be useful in the creation of a production service. The code includes a database adapter that can be configured to point to the [VISA database](deploying_database) and use the `security_group_filter` table.
+
+This project can also be configured to use the authorisation token described above.
+
 ## Testing
 
 To test the security group service a local version of the VISA API Server and VISA Web UI need to be run. The easiest way to do this is to use docker-compose to run the containerised version of VISA API Server and VISA Web and to use the following environment variables:
