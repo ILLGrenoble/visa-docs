@@ -24,6 +24,7 @@ A [Python VISA ETL Library](https://github.com/ILLGrenoble/visa-db-etl-py) is av
 
 This section describes the model used by VISA where data has to come from the ETL process.
 
+(development_etl_user_data)=
 #### User Data
 
 The following diagram illustrates the user data that should be loaded into VISA.

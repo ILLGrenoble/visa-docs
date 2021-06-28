@@ -46,6 +46,7 @@ The following table shows the list of projects, the location of the source code 
 
 Since the Security Groups micro-service needs to be developed at each site, the Docker image is not included in this list. However, the source code for an [example Security Groups service](https://github.com/ILLGrenoble/visa-security-groups-example) is available to help in the development process.
 
+(deployment_docker_compose_endpoints)=
 ### VISA endpoints
 
 Each application has a different endpoint that needs to be reverse proxied for the frontend to correctly access this different services. This list below shows these endpoints and to which application/URL they are proxied to.
