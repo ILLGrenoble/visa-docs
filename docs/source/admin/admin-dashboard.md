@@ -1,3 +1,4 @@
+(admin_dashboard)=
 # Dashboard
 
 The *Dashboard* admin UI provides a quick overview of the current usage of VISA.

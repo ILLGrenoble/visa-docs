@@ -32,6 +32,7 @@ The VISA platform is highly configurable through an array of environment variabl
 | VISA_LOGGING_LEVEL |  INFO |  The application logging level |
 | VISA_LOGGING_TIMEZONE |  CET | The timezone for the formatting the time in the application log  |
 
+(deployment_environment_variables_email_appender)=
 #### Email appender
 
 The email appender is used only for error logs, to allow for quick notification of errors that occur on a production server.

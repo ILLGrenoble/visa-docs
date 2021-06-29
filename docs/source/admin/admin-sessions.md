@@ -1,3 +1,4 @@
+(admin_sessions)=
 # Sessions
 
 To monitor the active usage of VISA, the sessions admin page is available.

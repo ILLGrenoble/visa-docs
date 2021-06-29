@@ -10,6 +10,7 @@ deploying-env-vars.md
 deploying-docker-compose.md
 deploying-load-balancing.md
 deploying-user-documentation.md
+deploying-monitoring.md
 ```
 
 This section describes how to deploy the VISA platform.
