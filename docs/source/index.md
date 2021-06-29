@@ -32,9 +32,11 @@ admin/admin-contents.md
 ```{toctree}
 ---
 maxdepth: 2
-caption: Source code
+caption: Contributing
 ---
-contributing/contributing-contents.md
+contributing/contributing-repositories.md
+contributing/contributing-dev-environment.md
+contributing/contributing-committing.md
 ```
 
 ## Acknowledgements

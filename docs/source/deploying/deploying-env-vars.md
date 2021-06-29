@@ -3,6 +3,7 @@
 
 The VISA platform is highly configurable through an array of environment variables. This section describes all the environment variables for the different applications and offers suggested values.
 
+(deployment_environment_variables_api_server)= 
 ## VISA API Server
 
 ### Server
@@ -174,6 +175,7 @@ The analytics environment variables are associated to the use of a [Matamo](http
 | VISA_CLIENT_CONFIG_DESKTOP_KEYBOARD_LAYOUTS | []  |  Specifies the list of keyboard layouts that are proposed to a user, eg [{"layout":"en-gb-qwerty","name":"English (UK) keyboard","selected":true},{"layout":"fr-fr-azerty","name":"French keyboard (azerty)","selected":false}]  |
 
 
+(deployment_environment_variables_accounts)= 
 ## VISA Accounts
 
 ### Server
@@ -213,6 +215,7 @@ The syslog environment variables are optional: if none are set then log messages
 | VISA_ACCOUNTS_LOG_SYSLOG_PORT |   |  The Syslog port (optional) |
 | VISA_ACCOUNTS_LOG_SYSLOG_APP_NAME |   |  Application name used by Syslog (optional) |
 
+(deployment_environment_variables_jupyter_proxy)= 
 ## VISA Jupyter Proxy
 
 ### Server
