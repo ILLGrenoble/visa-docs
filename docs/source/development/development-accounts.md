@@ -102,6 +102,8 @@ To test the attribute provider a local version of VISA Accounts, the VISA API Se
 
 You can find more information about docker-compose in the [deploying](deployment_docker_compose) section.
 
+To build and run any of the VISA applications locally you can find more information on the [Development environment](development_environment) section.
+
 ### Environment variables
 
 The following environment variables are used to configure VISA Accounts and can be placed in a dotenv file:

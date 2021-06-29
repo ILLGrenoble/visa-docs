@@ -1,4 +1,5 @@
-# Development Environment
+(development_environment)=
+# Development environment
 
 The following sections describe how to build and run locally each application of the VISA platform. 
 
