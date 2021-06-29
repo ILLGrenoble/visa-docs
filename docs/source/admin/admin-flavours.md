@@ -1,20 +1,20 @@
 # Flavour management
 
-Management of flavours is done using the Flavours admin page
+Management of Flavours is done using the Flavours admin page.
 
 ![](../_static/images/visa-admin-flavours.png)
 
 
-The flavours interface shows a list of flavours that are available in VISA. The details of the Flavour includes:
+The Flavours interface shows a list of Flavours that are available in VISA. The details of the Flavour includes:
 
 - **ID** (automatically generated)
 - **Name**
 
   The name of the image as shown in the instance creation page of VISA
 
-- **Cloud flavour**
+- **Cloud Flavour**
 
-  The name of the Cloud flavour (associates the database flavour to a Flavour in OpenStack)
+  The name of the Cloud Flavour (associates the database Flavour to a Flavour in OpenStack)
 
 - **Memory**
 
@@ -24,9 +24,9 @@ The flavours interface shows a list of flavours that are available in VISA. The 
 
   Shows the vCPUs that are available with the Flavour (this is taken directly from OpenStack)
 
-The flavour can be updated and deleted. Please note that the database entry for the flavour is only soft deleted so it can be recovered if necessary. Deleting a flavour does not have any impact on running instances: this will only make the flavour invisible to users and no changes are made to OpenStack.
+The Flavour can be updated and deleted. Please note that the database entry for the Flavour is only soft deleted so it can be recovered if necessary. Deleting a Flavour does not have any impact on running instances: this will only make the Flavour invisible to users and no changes are made to OpenStack.
 
-A button to create a new flavour is also available.
+A button to create a new Flavour is also available.
 
 Both *update* and *create* UIs are the same
 
