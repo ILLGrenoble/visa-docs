@@ -1,3 +1,4 @@
+(development_emails)=
 # Email customisation
 
 VISA sends emails to users to notify them of changes to their instance. These occur when:

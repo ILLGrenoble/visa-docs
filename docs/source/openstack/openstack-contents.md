@@ -1,3 +1,13 @@
-# OpenStack Configuration
+(openstack_contents)=
+# OpenStack
 
-This section describes the configuration of the OpenStack cloud infrastructure necessary for VISA.
+```{toctree}
+---
+maxdepth: 1
+---
+openstack-architecture.md
+<!-- openstack-ansible-deployment.md -->
+openstack-application-credentials.md
+```
+
+This section describes the installation and configuration of the OpenStack cloud infrastructure necessary for VISA.

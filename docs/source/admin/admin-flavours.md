@@ -1,3 +1,4 @@
+(admin_flavour_management)=
 # Flavour management
 
 Management of Flavours is done using the Flavours admin page.

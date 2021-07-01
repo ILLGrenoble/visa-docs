@@ -1,3 +1,4 @@
+(admin_image_management)=
 # Image management
 
 To add, remove and modify Images in VISA, the Image admin interface is available.

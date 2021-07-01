@@ -1,3 +1,4 @@
+(admin_plan_management)=
 # Plan management
 
 A Plan represents the combination of an Image and a Flavour. This allows certain Images to be available for specific Flavours (for example if specific resources are necessary). 

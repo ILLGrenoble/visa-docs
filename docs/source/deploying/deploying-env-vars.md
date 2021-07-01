@@ -77,6 +77,7 @@ The email appender is used only for error logs, to allow for quick notification 
 | VISA_SECURITY_GROUP_SERVICE_CLIENT_URL |   |  The VISA Security Group Service URL eg http://security-groups:8090/api/securitygroups |
 | VISA_SECURITY_GROUP_SERVICE_CLIENT_AUTH_TOKEN |   |  The authentication token to send to the Security Group service |
 
+(deployment_environment_variables_openstack)=
 ### OpenStack cloud provider
 
 | Environment variable | Default | Description |
@@ -245,6 +246,7 @@ The syslog environment variables are optional: if none are set then log messages
 | VISA_JUPYTER_PROXY_LOG_SYSLOG_PORT |   |  The Syslog port (optional) |
 | VISA_JUPYTER_PROXY_LOG_SYSLOG_APP_NAME |   | Application name used by Syslog (optional) |
 
+(deployment_environment_variables_jupyter_proxy_port)=
 ### Jupyter
 
 | Environment variable | Default | Description |

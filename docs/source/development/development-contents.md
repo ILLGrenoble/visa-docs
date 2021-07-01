@@ -8,6 +8,7 @@ development-accounts.md
 development-security-groups.md
 development-etl.md
 development-emails.md
+development-cloud-provider.md
 ```
 
 To fully install VISA some site-specific development will be necessary including linking VISA to your authentication provider, importing data from your facility into the VISA database, customising user emails and defining the logic necessary for instance firewalls (OpenStack Security Groups).
@@ -42,5 +43,7 @@ A quick description of the software development is as follows:
 
   VISA notifies users via email, for example when their instances are going to be deleted or if they have been given access to someone else's instance. An email template is used for these purposes and can be customised by each facility to make them more relevant (ie add the facility name or an IT contact email address).
 
+- **Alternative Cloud Provider**
 
+  For sites that do not intend to have OpenStack installed, we provide a means of connecting to alternative cloud providers. We do not guarantee full functionality of VISA as only OpenStack is fully supported.
 

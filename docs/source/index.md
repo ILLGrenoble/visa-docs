@@ -8,6 +8,7 @@ maxdepth: 2
 caption: VISA
 ---
 overview/overview-contents.md
+starting/getting-started.md
 ```
 
 ```{toctree}
