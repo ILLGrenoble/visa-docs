@@ -6,7 +6,7 @@
 maxdepth: 1
 ---
 openstack-architecture.md
-<!-- openstack-ansible-deployment.md -->
+openstack-ansible-deployment.md
 openstack-application-credentials.md
 ```
 
