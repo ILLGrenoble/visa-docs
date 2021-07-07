@@ -1,5 +1,5 @@
 (deployment_docker_compose)=
-# Docker Compose Deployment
+# Docker-compose deployment
 
 This section describes how to deploy the VISA platform using docker-compose.
 

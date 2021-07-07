@@ -8,6 +8,7 @@ deploying-authentication.md
 deploying-database.md
 deploying-env-vars.md
 deploying-docker-compose.md
+deploying-initial-tests.md
 deploying-load-balancing.md
 deploying-user-documentation.md
 deploying-monitoring.md
