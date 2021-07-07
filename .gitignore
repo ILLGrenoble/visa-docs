@@ -1,4 +1,5 @@
 .sphinx
 docs/build
 docs/_build
-
+*.swp
+*.swo
