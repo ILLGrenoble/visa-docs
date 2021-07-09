@@ -33,7 +33,7 @@ To build and run locally the VISA API Server please follow the following command
    ```bash
    #!/bin/bash
 
-   export $(egrep -v '^#' .env | xargs)
+   export $(egrep -v '^#' .env | xargs -0)
    java -jar visa-app/target/visa-app.jar server visa-app/configuration.yml
    ```
 
