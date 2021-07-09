@@ -1,8 +1,6 @@
 (image_creation)=
 # Image creation
 
-> **_NOTE_** This documentation is work in progress
-
 The automated build of the virtual machine image at the ILL is done principally using [Packer](https://www.packer.io/). This is a very useful tool to script the creation of a virtual machine image which can be done for multiple platforms and formats (including QEMU, docker, OpenStack, VirtualBox, etc).
 
 The process is simple to integrate into a *CI/CD* system and automatically upload images to OpenStack using the [OpenStack CLI](https://docs.openstack.org/newton/user-guide/common/cli-install-openstack-command-line-clients.html).
@@ -57,9 +55,27 @@ The example project below, based on the ILL's integration of JupyterLab uses a p
 
 ## Example image
 
-> An example project is being developed and will be integrated soon
+An example project on building an image using packer templates is [available on GitHub](https://github.com/ILLGrenoble/visa-image-template-example).
 
-Details are given here on how to build the example image
+This project has been provided to give an example of how to build and image and integrate it into VISA with OpenStack and can be extended to provide a production image.
+
+### Features
+
+The virtual machine image created by these templates is a very simple data analysis machine used for demonstration purposes. The main features  demonstrated are as follows:
+
+- Guacamole/XRDP installation
+- Automatic connection to remote desktops (XRDP) using the VISA PAM module
+- Custom application installation
+- JupyterLab integration using conda environments
+- Custom background and welcom message
+- Power management modifications
+
+For a production environment you will probably need to look at
+- Integration to LDAP or other authentication systems
+- Access to network home directories
+- Access to scientific data
+- Adding more data analysis applications 
+- Configuration of NTP servers
 
 ### Installation
 
@@ -67,132 +83,121 @@ Details are given here on how to build the example image
 
 On Ubuntu 18.04:
 ```
-sudo apt install qemu qemu-kvm libvirt-bin bridge-utils virt-manager git-lfs python3-venv python3-pip
+sudo apt install qemu qemu-kvm libvirt-bin bridge-utils virt-manager python3-venv python3-pip
 ```
 
 On Debian 10:
 ```
-sudo apt install qemu qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils virt-manager git-lfs python3-venv python3-pip
+sudo apt install qemu qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils virt-manager python3-venv python3-pip
 ```
 
 Add your user to the following groups:
 
 ```
-usermod -a -G libvirt $(whoami)
-usermod -a -G kvm $(whoami)
+sudo usermod -a -G libvirt $(whoami)
+sudo usermod -a -G kvm $(whoami)
 ```
 
 **After setting these user groups the machine must be rebooted**
 
-Install OpenStack client
-
-```
-sudo pip3 install python-openstackclient
-```
-
-and then add connection environment variables to $HOME/.profile:
-
-```
-export OS_PROJECT_DOMAIN_NAME=default
-export OS_USERNAME={OPENSTACK_USERNAME}
-export OS_PASSWORD={OPENSTACK_PASSWORD}
-export OS_TENANT_NAME="VISA Development"
-export OS_AUTH_URL=https://{your.osserver.host}:5000/v3
-export OS_USER_DOMAIN_NAME=default
-export OS_REGION_NAME="RegionOne"
-export OS_INTERFACE=public
-export OS_IDENTITY_API_VERSION=3
-```
-
-#### Virtual environment
-
-Create a virtual environment (inside the cloned folder):
-
-```
-python3 -m venv .venv 
-```
-
-Activate the virtual environment
-
-```
-source .venv/bin/activate
-```
-
-Install packer:
-
-```
-sudo wget -O packer.zip https://releases.hashicorp.com/packer/1.6.5/packer_1.6.4_linux_amd64.zip 
-sudo mv packer /usr/local/bin/packer
-```
-
-Install packme: 
-
-```bash
-pip3 install packme
-```
-
 ### Building the images
 
-> If there are environment variables that need to be declared, then packme will tell you what to define before it can continue with the build.
+A script to build the image can be found at `build-image.sh` that uses the [packme](https://pypi.org/project/packme/) to build the packer configuration files. 
 
-The following environment variables need to be set
-- user_password: The password of the user in the VM to be generated
-- root_password: The password of the root user in the generated VM
-- headless: true/false depending on whether the UI is required during the build process (helps with debugging)
+The script requires some parameters to be set to build the image for your system:
 
+```
+build-image.sh [options]
+
+Options and equivalent environment variables:
+  -pp or --pam-public <path>            VISA_PAM_PUBLIC_KEY      set the PAM module public key location
+  -rp or --root-password <password>     VISA_ROOT_PASSWORD       set the root password for the VM
+  -hp or --http-proxy <URL>             VISA_HTTP_PROXY          set the HTTP proxy URL
+  -np or --no-proxy <no proxy hosts>    VISA_NO_PROXY_HOSTS      set the HTTP no proxy hosts
+  -nh or --not-headless                                          set build process not to be headless (for debugging)
+```
+
+You must specify a path to the VISA PAM public key and a root password. The proxy settings are optional.
+
+Run the script to build the image, eg:
 
 ```bash
-packme --templates-base-dir templates --debug -l --input config.yml -c -r 
+./build-image.sh -pp {/root/to/visa/public/key} -rp {root_password}
 ```
 
 The built images are stored in `templates/{template-name}/builds`
 
-If you want the build to be headless (no gui) then set the environment variable `headless=true`.
+#### Headless mode
 
-### Converting from qcow to raw
+When running in *headless* mode you will not see the system installation process happening within the VM. You can however still connect to the VM during the installation to see what is happening using VNC. Looking at the log messages you will see something like :
 
-There is a script inside `bin` called `convert-to-raw`. This script will take a `template` as an argument. It will convert that templates qemu image into a raw image.
-
-Example: 
-
-```bash
-cd templates/visa-example-image/builds
-qemu-img convert -f qcow2 -O raw visa-example-image-qemu visa-example-image.img
 ```
+    qemu: The VM will be run headless, without a GUI. If you want to
+    qemu: view the screen of the VM, connect via VNC without a password to
+    qemu: vnc://127.0.0.1:5991
+```
+
+Using a VNC client you can connect to this address and examine a running installation.
+
+#### System requirements
+
+To build this example image, the process requires 4GB of memory and 1 CPU.
+
+For production images you may find that you require more memory and CPUS. We would typically recomment 8GB and at least 2 CPUs.
+
+The process also requires a lot of writing to the hard disk. To improve the build time we would recommend using an SSD.
 
 ### Upload an image to openstack
 
-Using the openstack CLI we can upload an image to openstack.
+Using the openstack cli we can upload an image to openstack. 
 
-Example openstack script for setting up the environment:
+#### Install OpenStack client
 
-> More information can be found on the [OpenStack documentation](https://docs.openstack.org/mitaka/install-guide-obs/keystone-openrc.html).
+```
+pip3 install python-openstackclient
+```
+
+> More information can be found here: https://docs.openstack.org/mitaka/install-guide-obs/keystone-openrc.html
+
+A number of environment variables need to be set first:
 
 ```bash
-export OS_USERNAME={your-os-admin}
 export OS_PROJECT_DOMAIN_NAME=default
-
-echo "Please enter your OpenStack Password for project $OS_PROJECT_NAME as user $OS_USERNAME: "
-read -sr OS_PASSWORD_INPUT
-
-export OS_PASSWORD=$OS_PASSWORD_INPUT
-export OS_PROJECT_NAME="VISA Development"
-export OS_AUTH_URL=http://{your.osserver.host}:5000/v3
+export OS_USERNAME={OPENSTACK_USERNAME}
+export OS_PASSWORD={OPENSTACK_PASSWORD}
+export OS_TENANT_NAME={OPENSTACK_PROJECT}
+export OS_AUTH_URL=https://{the.os.cloud.host}:5000/v3
 export OS_USER_DOMAIN_NAME=default
 export OS_REGION_NAME="RegionOne"
 export OS_INTERFACE=public
 export OS_IDENTITY_API_VERSION=3
 ```
-Source the above script before executing the command below to upload to openstack
 
-Upload to openstack: 
+#### Upload to openstack: 
 
-This example will upload the image to the `VISA Development` project. If the `project` argument is ommitted then it will use the default value that is defined in your openrc file. It specified a disk size of 40GB using the raw image format.
+This example will upload the image to the `VISA Production` project. If the `project` argument is ommitted then it will use the default value that is defined in your openrc file. 
 
 ```bash
-openstack image create visa-apps-{version) \
---public --project "VISA Development" --min-disk 40 --disk-format raw \
---file templates/visa-example-image/builds/visa-example-image-raw
+openstack image create visa-example --public --min-disk 10 --disk-format qcow2 --file visa-apps-qemu.iso
 ```
+
+### VISA Integration
+
+The authentication is done automatically using the [VISA PAM module](https://github.com/ILLGrenoble/visa-pam), however the user (owner of the instance) needs to be added in the VM when it starts up. This can be done using *cloud-init*.
+
+Add this script to the boot command part of the Image in the [VISA Admin UI](https://visa.readthedocs.io/en/latest/admin/admin-images.html):
+
+```bash
+#!/bin/bash
+
+# Get the owner login from cloud-init
+owner=$(cloud-init query ds.meta_data.meta.owner)
+
+# Create the user with a random password
+useradd -m -U -p $(date +%s | sha256sum | base64 | head -c 32) -s /bin/bash ${owner}
+```
+
+This creates a user with the same username as the owner, and creates a random password (the password isn't needed since VISA PAM is used).
+
 
 
