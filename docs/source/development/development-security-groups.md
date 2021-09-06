@@ -9,7 +9,7 @@ For example, at the ILL, the security groups of an instance can depend on variou
 
 - user role (admin, staff, external user)
 - associated experiments (and instruments)
-- where a reactor cycle is active
+- where an experiment is active
 - Non-trivial logic is applied when determining the security groups which will be different for different sites.
 
 Some rules can be made quite generic, for example if security groups depend on the role of the user: this can be configurable from site to site and so the logic is integrated directly into VISA API Server and configured via database entries.

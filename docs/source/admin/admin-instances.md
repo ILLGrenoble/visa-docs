@@ -17,7 +17,6 @@ The filter boxes allows specific instances to be more easily found. Filtering ca
 - Image
 - Flavour
 - Instrument (if the instance is associated to an experiment)
-- Cycle (if the instance is associated to an experiment)
 
 ## Instance details
 

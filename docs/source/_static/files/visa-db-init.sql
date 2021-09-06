@@ -28,15 +28,6 @@ create table if not exists configuration (
     constraint configuration_pkey primary key (id)
 );
 
-create table if not exists cycle (
-    id         bigint       not null,
-    end_date   timestamp    not null,
-    name       varchar(100) not null,
-    start_date timestamp    not null,
-
-    constraint cycle_pkey primary key (id)
-);
-
 create table if not exists employer (
     id           bigint not null,
     country_code varchar(10),
@@ -181,14 +172,12 @@ create table if not exists proposal (
 
 create table if not exists experiment (
     id            varchar(32) not null,
-    cycle_id      bigint      not null,
     instrument_id bigint      not null,
     proposal_id   bigint      not null,
     end_date      timestamp,
     start_date    timestamp,
 
     constraint experiment_pkey primary key (id),
-    constraint fk_cycle_id foreign key (cycle_id) references cycle,
     constraint fk_instrument_id foreign key (instrument_id) references instrument,
     constraint fk_proposal_id foreign key (proposal_id) references proposal
 );

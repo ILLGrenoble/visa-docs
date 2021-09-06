@@ -5,7 +5,7 @@
 
 ## Description
 
-The VISA Patch System was put into place to allow us to apply new patches to VISA instance after a simple reboot and to address the need of urgent and frequent corrections during a cycle, without having to fully re-build an image every time.
+The VISA Patch System was put into place to allow us to apply new patches to VISA instance after a simple reboot and to address the need of urgent and frequent corrections during a reactor cycle, without having to fully re-build an image every time.
 
 As part of the [cloud-init](https://cloudinit.readthedocs.io/en/latest/index.html) package, when the instances are created, VISA uses a mechanism called [User-Data](https://cloudinit.readthedocs.io/en/latest/topics/format.html#user-data-script) which allows us to execute a script on first boot. This script is associated with a VISA Image and is configured in the *boot command* of the [Images admin interface](admin_image_management).
 
