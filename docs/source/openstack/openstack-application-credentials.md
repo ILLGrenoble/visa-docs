@@ -1,3 +1,5 @@
+(openstack_application_credentials)=
+
 # VISA Application Configuration
 
 This section provides details on configuration necessary for VISA to be able to manage instances in OpenStack.
