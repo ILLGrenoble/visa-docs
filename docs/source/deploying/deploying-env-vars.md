@@ -85,6 +85,7 @@ The email appender is used only for error logs, to allow for quick notification 
 | VISA_CLOUD_IDENTITY_ENDPOINT |   | The OpenStack identity endpoint  |
 | VISA_CLOUD_COMPUTE_ENDPOINT |   |  The OpenStack compute endpoint |
 | VISA_CLOUD_IMAGE_ENDPOINT |   |  The OpenStack image endpoint |
+| VISA_CLOUD_NETWORK_ENDPOINT |   |  The OpenStack network endpoint |
 | VISA_CLOUD_APPLICATION_ID |   |  The application ID to authorise VISA API Server to use the OpenStack API |
 | VISA_CLOUD_APPLICATION_SECRET |   |  The application secret to authorise VISA API Server to use the OpenStack API |
 | VISA_CLOUD_ADDRESS_PROVIDER |   |  The address provider name for instances in OpenStack |

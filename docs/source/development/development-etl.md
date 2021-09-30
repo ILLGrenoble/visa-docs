@@ -105,15 +105,6 @@ The following sections are the tables that need data to be injected and the stru
 |    id  | bigint  |       not null, primary key
 |    name | varchar(250) | not null
 
-### cycle
-
-| Column | type | Constraints |
-|---|---|---|
-|    id  |       bigint       |  not null, primary key
-|    end_date |  timestamp(6) | not null
-|    name    |   varchar(100) | not null
-|    start_date | timestamp(6) | not null
-
 
 ### proposal
 
@@ -130,7 +121,6 @@ The following sections are the tables that need data to be injected and the stru
 | Column | type | Constraints |
 |---|---|---|
 |    id         |   varchar(32) | not null, primary key
-|    cycle_id    |  bigint    |  not null, constraint fk_cycle_id references cycle
 |    instrument_id | bigint  |    not null, constraint fk_instrument_id references instrument
 |    proposal_id  | bigint   |   not null, constraint fk_proposal_id references proposal
 |    end_date    |  timestamp
