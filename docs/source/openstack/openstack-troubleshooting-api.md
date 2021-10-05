@@ -10,7 +10,7 @@ We will need to export some variables before we can send requests to the _authen
 
 | Name                  | Description                                                                                                                                                                                                                                                                                                   | Example value                     |   |   |
 |-----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------|---|---|
-| OS_IDENTITIY_ENDPOINT | The [endpoint](https://docs.openstack.org/api-ref/identity/v3/index.html) to authenticate to openstack.  This is normally running on port 5000. If you are using HTTPS, then please ensure you have a valid certificate. VISA API Server will throw an error if the certificate is invalid (i.e. self-signed) | http://openstack.example.com:5000 |   |   |
+| OS_IDENTITY_ENDPOINT | The [endpoint](https://docs.openstack.org/api-ref/identity/v3/index.html) to authenticate to openstack.  This is normally running on port 5000. If you are using HTTPS, then please ensure you have a valid certificate. VISA API Server will throw an error if the certificate is invalid (i.e. self-signed) | http://openstack.example.com:5000 |   |   |
 | OS_COMPUTE_ENDPOINT   | The endpoint for issue [compute](https://docs.openstack.org/api-ref/compute/) requests to openstack. This is normally running on port 8774. If you are using HTTPS, then please ensure you have a valid certificate. VISA API Server will throw an error if the certificate is invalid (i.e. self-signed)     | http://openstack.example.com:8774 |   |   |
 | OS_APPLICATION_ID     | Please see [here](openstack_application_credentials) for documentation about application credentials                                                                                                                                                               | N/A                               |   |   |
 | OS_APPLICATION_SECRET | Please see [here](openstack_application_credentials) for documentation about application credentials               
@@ -82,13 +82,13 @@ Export the token and called it `OS_SUBJECT_TOKEN`
 Fetch a list of instances:
 
 ```
-http -v GET $OS_COMPUTE_ENDPOINT/v2/servers/detail X-Auth-Token:$OS_AUTH_TOKEN
+http -v GET $OS_COMPUTE_ENDPOINT/v2/servers/detail X-Auth-Token:$OS_SUBJECT_TOKEN
 ```
 
 Fetch a list of flavours:
 
 ```
-http -v GET $OS_COMPUTE_ENDPOINT/v2/flavors/detail X-Auth-Token:$OS_AUTH_TOKEN
+http -v GET $OS_COMPUTE_ENDPOINT/v2/flavors/detail X-Auth-Token:$OS_SUBJECT_TOKEN
 ```
 
 
