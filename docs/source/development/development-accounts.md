@@ -32,13 +32,15 @@ An internal API written in JavaScript is therefore used to have an abstraction o
 To integrate and attribute provider for a facility, a simple JavaScript file has to be linked to the application (specified using an environmnet variable). The interface of this javascript files is as follows:
 
 ```javascript
-getUserId(userInfo): string;
-getUsername(userInfo): string;
-getFirstname(userInfo): string;
-getLastname(userInfo): string;
-getEmail(userInfo): string;
-getAccountParameters(userInfo): Object;
+getUserId(userInfo): string | Promise<string>;
+getUsername(userInfo): string | Promise<string>;
+getFirstname(userInfo): string | Promise<string>;
+getLastname(userInfo): string | Promise<string>;
+getEmail(userInfo): string | Promise<string>;
+getAccountParameters(userInfo): Object | Promise<Object>;
 ```
+
+Each provider function can return a value or a promise allowing flexibility when, for example, requests to databases or web services may be necessary.
 
 ### The User ID
 
