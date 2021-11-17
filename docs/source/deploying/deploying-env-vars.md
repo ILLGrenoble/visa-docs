@@ -157,9 +157,11 @@ The VISA API server has an endpoint that allows a client to obtain configuration
 
 | Environment variable | Default | Description |
 |---|---|---|
-| VISA_CLIENT_CONFIG_LOGIN_URL |   |  Specifies the IDP OpenID Connect login URL (eg https://my.idp.server/auth) |
-| VISA_CLIENT_CONFIG_LOGIN_REALM |   |  Specifies the realm for application in the OpenID connect service |
-| VISA_CLIENT_CONFIG_LOGIN_CLIENT_ID |   |  Specified the client ID for the login process |
+| VISA_CLIENT_CONFIG_LOGIN_ISSUER |   |  Specifies the IDP OpenID Connect login URL (eg for Keycloak https://my.keycloak/auth/realms/master) |
+| VISA_CLIENT_CONFIG_LOGIN_CLIENT_ID |   |  Specifies the client ID for the login process |
+| VISA_CLIENT_CONFIG_LOGIN_SCOPE | `openid offline_access` | The required scope for the authentication (unlikely to be different from the default |
+| VISA_CLIENT_CONFIG_LOGIN_SHOW_DEBUG_INFORMATION | `false` |  Enables debug logging information on the client side (visa-web) |
+| VISA_CLIENT_CONFIG_LOGIN_SESSION_CHECKS_ENABLED | `true` |  Checks the the current OpenID Connect IDP session is still active |
 
 #### Analytics
 
