@@ -33,7 +33,10 @@ The following diagram illustrates the user data that should be loaded into VISA.
 
 The ETL should import information about users. Most importantly here is the association of roles to users. VISA will work without any user data being injected but there will be no admin users or support users.
 
-Different roles are associated to different users which can either be related to VISA itself or to the function of the person within the facility. These roles are pre-defined and experience has given us some insights into these and are important when providing support to users:
+Different roles are associated to different users which can either be related to VISA itself or to the function of the person within the facility. These roles are pre-defined and experience has given us some insights into these and are important when providing support to users.
+
+Some roles may only be temporary, for example the Guest role. This is accounted for in the data model and expiry dates can be provided when associating a role to a user (if no expiry date is given then the role is permanent).
+
 
 | Role                 | Type        | Description                                                                                                                                         |
 |----------------------|-------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -44,6 +47,7 @@ Different roles are associated to different users which can either be related to
 | IT_SUPPORT           | function    | Any person from the IT service can provide support to the portal users                                                                              |
 | SCIENTIFIC_COMPUTING | function    | A scientific computing specialist can provider support to users for the data analysis software                                                      |
 | STAFF                | function    | All staff at the facility have different access rights to external users (for example for instance lifetimes or security groups)                    |
+| GUEST                | application | A guest user (managed manually through the VISA Admin UI) allows individual users to create virtual machines without having any associated experiments. For example it can be used to provide temporary access to users during a training course. |
 
 #### Facility Data
 
@@ -96,6 +100,7 @@ The following sections are the tables that need data to be injected and the stru
 |---|---|---|
 |    user_id | varchar(250) | not null, constraint fk_users_id references users
 |    role_id | bigint       | not null, constraint fk_role_id references role
+|    expires_at | timestamp       | 
 
 
 ### instrument

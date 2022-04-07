@@ -1,370 +1,1377 @@
-create sequence if not exists flavour_id_seq;
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
 
-create sequence if not exists flavour_limit_id_seq;
+--
+-- Name: visa; Type: SCHEMA; Schema: -; Owner: -
+--
 
-create sequence if not exists image_id_seq;
+CREATE SCHEMA visa;
 
-create sequence if not exists instance_authentication_token_id_seq;
 
-create sequence if not exists instance_command_id_seq;
+SET default_tablespace = '';
 
-create sequence if not exists instance_id_seq;
+--
+-- Name: application_credential; Type: TABLE; Schema: visa; Owner: -
+--
 
-create sequence if not exists instance_member_id_seq;
-
-create sequence if not exists instance_session_id_seq;
-
-create sequence if not exists protocol_id_seq;
-
-create sequence if not exists role_id_seq;
-
-create sequence if not exists instance_attribute_id_seq;
-
-create table if not exists configuration (
-    id    bigserial     not null,
-    key   varchar(256)  not null,
-    value varchar(8192) not null,
-
-    constraint configuration_pkey primary key (id)
+CREATE TABLE visa.application_credential (
+    id bigint NOT NULL,
+    application_id character varying(255) NOT NULL,
+    application_secret character varying(255) NOT NULL,
+    deleted_at timestamp without time zone,
+    last_used_at timestamp without time zone,
+    name character varying(250) NOT NULL,
+    salt character varying(255) NOT NULL
 );
 
-create table if not exists employer (
-    id           bigint not null,
-    country_code varchar(10),
-    name         varchar(200),
-    town         varchar(100),
 
-    constraint employer_pkey primary key (id)
+--
+-- Name: application_credential_id_seq; Type: SEQUENCE; Schema: visa; Owner: -
+--
+
+CREATE SEQUENCE visa.application_credential_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: application_credential_id_seq; Type: SEQUENCE OWNED BY; Schema: visa; Owner: -
+--
+
+ALTER SEQUENCE visa.application_credential_id_seq OWNED BY visa.application_credential.id;
+
+
+--
+-- Name: configuration; Type: TABLE; Schema: visa; Owner: -
+--
+
+CREATE TABLE visa.configuration (
+    id bigint NOT NULL,
+    key character varying(256) NOT NULL,
+    value character varying(8192) NOT NULL
 );
 
-create table if not exists flavour (
-    id          bigint default nextval('flavour_id_seq'::regclass) not null,
-    created_at  timestamp                                          not null,
-    updated_at  timestamp                                          not null,
-    compute_id  varchar(250)                                       not null,
-    cpu         real                                               not null,
-    deleted     boolean                                            not null,
-    memory      integer                                            not null,
-    name        varchar(250)                                       not null,
 
-    description varchar(2500),
-    constraint flavour_pkey primary key (id)
+--
+-- Name: configuration_id_seq; Type: SEQUENCE; Schema: visa; Owner: -
+--
+
+CREATE SEQUENCE visa.configuration_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: configuration_id_seq; Type: SEQUENCE OWNED BY; Schema: visa; Owner: -
+--
+
+ALTER SEQUENCE visa.configuration_id_seq OWNED BY visa.configuration.id;
+
+
+--
+-- Name: employer; Type: TABLE; Schema: visa; Owner: -
+--
+
+CREATE TABLE visa.employer (
+    id bigint NOT NULL,
+    country_code character varying(10),
+    name character varying(200),
+    town character varying(100)
 );
 
-create table if not exists flavour_limit (
-    id          bigint default nextval('flavour_limit_id_seq'::regclass) not null,
-    object_id   bigint                                                   not null,
-    object_type varchar(255)                                             not null,
-    flavour_id  bigint                                                   not null,
 
-    constraint flavour_limit_pkey primary key (id),
-    constraint fk_flavour_id foreign key (flavour_id) references flavour
+--
+-- Name: experiment; Type: TABLE; Schema: visa; Owner: -
+--
+
+CREATE TABLE visa.experiment (
+    id character varying(32) NOT NULL,
+    instrument_id bigint NOT NULL,
+    proposal_id bigint NOT NULL,
+    start_date timestamp without time zone,
+    end_date timestamp without time zone
 );
 
-create table if not exists image (
-    id           bigint default nextval('image_id_seq'::regclass) not null,
-    created_at   timestamp                                        not null,
-    updated_at   timestamp                                        not null,
+
+--
+-- Name: experiment_user; Type: TABLE; Schema: visa; Owner: -
+--
+
+CREATE TABLE visa.experiment_user (
+    experiment_id character varying(32) NOT NULL,
+    user_id character varying(250) NOT NULL
+);
+
+
+--
+-- Name: flavour_id_seq; Type: SEQUENCE; Schema: visa; Owner: -
+--
+
+CREATE SEQUENCE visa.flavour_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: flavour; Type: TABLE; Schema: visa; Owner: -
+--
+
+CREATE TABLE visa.flavour (
+    id bigint DEFAULT nextval('visa.flavour_id_seq'::regclass) NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    compute_id character varying(250) NOT NULL,
+    cpu real NOT NULL,
+    memory integer NOT NULL,
+    name character varying(250) NOT NULL,
+    deleted boolean DEFAULT false NOT NULL
+);
+
+
+--
+-- Name: flavour_limit_id_seq; Type: SEQUENCE; Schema: visa; Owner: -
+--
+
+CREATE SEQUENCE visa.flavour_limit_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: flavour_limit; Type: TABLE; Schema: visa; Owner: -
+--
+
+CREATE TABLE visa.flavour_limit (
+    id bigint DEFAULT nextval('visa.flavour_limit_id_seq'::regclass) NOT NULL,
+    object_id bigint NOT NULL,
+    object_type character varying(255) NOT NULL,
+    flavour_id bigint NOT NULL
+);
+
+
+--
+-- Name: image_id_seq; Type: SEQUENCE; Schema: visa; Owner: -
+--
+
+CREATE SEQUENCE visa.image_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: image; Type: TABLE; Schema: visa; Owner: -
+--
+
+CREATE TABLE visa.image (
+    id bigint DEFAULT nextval('visa.image_id_seq'::regclass) NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    compute_id character varying(250) NOT NULL,
+    description character varying(2500),
+    icon character varying(100) NOT NULL,
+    name character varying(250) NOT NULL,
+    deleted boolean DEFAULT false NOT NULL,
+    visible boolean DEFAULT false NOT NULL,
+    version character varying(100),
     boot_command text,
-    compute_id   varchar(250)                                     not null,
-    deleted      boolean                                          not null,
-    description  varchar(2500),
-    icon         varchar(100)                                     not null,
-    name         varchar(250)                                     not null,
-    version      varchar(100),
-    visible      boolean                                          not null,
-    autologin    varchar(255),
-
-    constraint image_pkey primary key (id)
+    autologin character varying
 );
 
-create table if not exists instrument (
-    id   bigint       not null,
-    name varchar(250) not null,
 
-    constraint instrument_pkey primary key (id)
+--
+-- Name: image_protocol; Type: TABLE; Schema: visa; Owner: -
+--
+
+CREATE TABLE visa.image_protocol (
+    image_id bigint NOT NULL,
+    protocol_id bigint NOT NULL
 );
 
-create table if not exists plan (
-    id         bigserial not null,
-    created_at timestamp not null,
-    updated_at timestamp not null,
-    preset     boolean   not null,
+
+--
+-- Name: instance_id_seq; Type: SEQUENCE; Schema: visa; Owner: -
+--
+
+CREATE SEQUENCE visa.instance_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: instance; Type: TABLE; Schema: visa; Owner: -
+--
+
+CREATE TABLE visa.instance (
+    id bigint DEFAULT nextval('visa.instance_id_seq'::regclass) NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    comments character varying(2500),
+    compute_id character varying(250),
+    name character varying(250) NOT NULL,
+    screen_height integer NOT NULL,
+    screen_width integer NOT NULL,
+    state character varying(50) NOT NULL,
+    last_seen_at timestamp without time zone,
+    termination_date timestamp without time zone,
+    plan_id bigint,
+    username character varying(100),
+    delete_requested boolean DEFAULT false NOT NULL,
+    last_interaction_at timestamp without time zone,
+    ip_address character varying(255),
+    keyboard_layout character varying(100) DEFAULT 'en-gb-qwerty'::character varying NOT NULL,
+    deleted_at timestamp without time zone,
+    security_groups text,
+    uid character varying(16) NOT NULL
+);
+
+
+--
+-- Name: instance_attribute_id_seq; Type: SEQUENCE; Schema: visa; Owner: -
+--
+
+CREATE SEQUENCE visa.instance_attribute_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: instance_attribute; Type: TABLE; Schema: visa; Owner: -
+--
+
+CREATE TABLE visa.instance_attribute (
+    id bigint DEFAULT nextval('visa.instance_attribute_id_seq'::regclass) NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    name character varying(255) NOT NULL,
+    value character varying(255) NOT NULL,
+    instance_id bigint NOT NULL
+);
+
+
+--
+-- Name: instance_authentication_token_id_seq; Type: SEQUENCE; Schema: visa; Owner: -
+--
+
+CREATE SEQUENCE visa.instance_authentication_token_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: instance_authentication_token; Type: TABLE; Schema: visa; Owner: -
+--
+
+CREATE TABLE visa.instance_authentication_token (
+    id bigint DEFAULT nextval('visa.instance_authentication_token_id_seq'::regclass) NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    token character varying(250) NOT NULL,
+    instance_id bigint NOT NULL,
+    user_id character varying(250) NOT NULL
+);
+
+
+--
+-- Name: instance_command_id_seq; Type: SEQUENCE; Schema: visa; Owner: -
+--
+
+CREATE SEQUENCE visa.instance_command_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: instance_command; Type: TABLE; Schema: visa; Owner: -
+--
+
+CREATE TABLE visa.instance_command (
+    id bigint DEFAULT nextval('visa.instance_command_id_seq'::regclass) NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    action_type character varying(50) NOT NULL,
+    message character varying(255),
+    state character varying(50) NOT NULL,
+    instance_id bigint NOT NULL,
+    user_id character varying(250)
+);
+
+
+--
+-- Name: instance_experiment; Type: TABLE; Schema: visa; Owner: -
+--
+
+CREATE TABLE visa.instance_experiment (
+    experiment_id character varying(32) NOT NULL,
+    instance_id bigint NOT NULL
+);
+
+
+--
+-- Name: instance_expiration; Type: TABLE; Schema: visa; Owner: -
+--
+
+CREATE TABLE visa.instance_expiration (
+    id bigint NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    expiration_date timestamp without time zone NOT NULL,
+    instance_id bigint NOT NULL
+);
+
+
+--
+-- Name: instance_expiration_id_seq; Type: SEQUENCE; Schema: visa; Owner: -
+--
+
+CREATE SEQUENCE visa.instance_expiration_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: instance_expiration_id_seq; Type: SEQUENCE OWNED BY; Schema: visa; Owner: -
+--
+
+ALTER SEQUENCE visa.instance_expiration_id_seq OWNED BY visa.instance_expiration.id;
+
+
+--
+-- Name: instance_jupyter_session; Type: TABLE; Schema: visa; Owner: -
+--
+
+CREATE TABLE visa.instance_jupyter_session (
+    id bigint NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    active boolean NOT NULL,
+    kernel_id character varying(150) NOT NULL,
+    session_id character varying(150) NOT NULL,
+    instance_id bigint NOT NULL,
+    user_id character varying(250) NOT NULL
+);
+
+
+--
+-- Name: instance_jupyter_session_id_seq; Type: SEQUENCE; Schema: visa; Owner: -
+--
+
+CREATE SEQUENCE visa.instance_jupyter_session_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: instance_jupyter_session_id_seq; Type: SEQUENCE OWNED BY; Schema: visa; Owner: -
+--
+
+ALTER SEQUENCE visa.instance_jupyter_session_id_seq OWNED BY visa.instance_jupyter_session.id;
+
+
+--
+-- Name: instance_member_id_seq; Type: SEQUENCE; Schema: visa; Owner: -
+--
+
+CREATE SEQUENCE visa.instance_member_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: instance_member; Type: TABLE; Schema: visa; Owner: -
+--
+
+CREATE TABLE visa.instance_member (
+    id bigint DEFAULT nextval('visa.instance_member_id_seq'::regclass) NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    role character varying(255) NOT NULL,
+    user_id character varying(250) NOT NULL,
+    instance_id bigint NOT NULL
+);
+
+
+--
+-- Name: instance_session_id_seq; Type: SEQUENCE; Schema: visa; Owner: -
+--
+
+CREATE SEQUENCE visa.instance_session_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: instance_session; Type: TABLE; Schema: visa; Owner: -
+--
+
+CREATE TABLE visa.instance_session (
+    id bigint DEFAULT nextval('visa.instance_session_id_seq'::regclass) NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    connection_id character varying(150) NOT NULL,
+    instance_id bigint NOT NULL,
+    current boolean NOT NULL
+);
+
+
+--
+-- Name: instance_session_member; Type: TABLE; Schema: visa; Owner: -
+--
+
+CREATE TABLE visa.instance_session_member (
+    id bigint NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    active boolean NOT NULL,
+    role character varying(150) NOT NULL,
+    session_id character varying(150) NOT NULL,
+    instance_session_id bigint NOT NULL,
+    user_id character varying(250) NOT NULL,
+    last_seen_at timestamp without time zone,
+    last_interaction_at timestamp without time zone
+);
+
+
+--
+-- Name: instance_session_member_id_seq; Type: SEQUENCE; Schema: visa; Owner: -
+--
+
+CREATE SEQUENCE visa.instance_session_member_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: instance_session_member_id_seq; Type: SEQUENCE OWNED BY; Schema: visa; Owner: -
+--
+
+ALTER SEQUENCE visa.instance_session_member_id_seq OWNED BY visa.instance_session_member.id;
+
+
+--
+-- Name: instance_thumbnail; Type: TABLE; Schema: visa; Owner: -
+--
+
+CREATE TABLE visa.instance_thumbnail (
+    id bigint NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    instance_id bigint NOT NULL,
+    data text NOT NULL
+);
+
+
+--
+-- Name: instance_thumbnail_id_seq; Type: SEQUENCE; Schema: visa; Owner: -
+--
+
+CREATE SEQUENCE visa.instance_thumbnail_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: instance_thumbnail_id_seq; Type: SEQUENCE OWNED BY; Schema: visa; Owner: -
+--
+
+ALTER SEQUENCE visa.instance_thumbnail_id_seq OWNED BY visa.instance_thumbnail.id;
+
+
+--
+-- Name: instrument; Type: TABLE; Schema: visa; Owner: -
+--
+
+CREATE TABLE visa.instrument (
+    id bigint NOT NULL,
+    name character varying(250) NOT NULL
+);
+
+
+--
+-- Name: instrument_scientist; Type: TABLE; Schema: visa; Owner: -
+--
+
+CREATE TABLE visa.instrument_scientist (
+    instrument_id bigint NOT NULL,
+    user_id character varying(250) NOT NULL
+);
+
+
+--
+-- Name: plan; Type: TABLE; Schema: visa; Owner: -
+--
+
+CREATE TABLE visa.plan (
+    id bigint NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     flavour_id bigint,
-    image_id   bigint,
-
-    constraint plan_pkey primary key (id),
-    constraint fk_flavour_id foreign key (flavour_id) references flavour,
-    constraint fk_image_id foreign key (image_id) references image
+    image_id bigint,
+    preset boolean DEFAULT false NOT NULL
 );
 
-create table if not exists instance (
-    id                  bigint       default nextval('instance_id_seq'::regclass) not null,
-    created_at          timestamp                                                 not null,
-    updated_at          timestamp                                                 not null,
-    comments            varchar(2500),
-    compute_id          varchar(250),
-    delete_requested    boolean                                                   not null,
-    ip_address          varchar(255),
-    last_interaction_at timestamp,
-    last_seen_at        timestamp,
-    name                varchar(250)                                              not null,
-    screen_height       integer                                                   not null,
-    screen_width        integer                                                   not null,
-    state               varchar(50)                                               not null,
-    termination_date    timestamp,
-    username            varchar(100),
-    plan_id             bigint,
-    deleted_at          timestamp,
-    keyboard_layout     varchar(100) default 'en-gb-qwerty'::character varying,
-    security_groups     text,
-    home_directory      varchar(250),
 
-    constraint instance_pkey primary key (id),
-    constraint fk_plan_id foreign key (plan_id) references plan
+--
+-- Name: plan_id_seq; Type: SEQUENCE; Schema: visa; Owner: -
+--
+
+CREATE SEQUENCE visa.plan_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: plan_id_seq; Type: SEQUENCE OWNED BY; Schema: visa; Owner: -
+--
+
+ALTER SEQUENCE visa.plan_id_seq OWNED BY visa.plan.id;
+
+
+--
+-- Name: proposal; Type: TABLE; Schema: visa; Owner: -
+--
+
+CREATE TABLE visa.proposal (
+    id bigint NOT NULL,
+    identifier character varying(100) NOT NULL,
+    title character varying(2000),
+    public_at timestamp without time zone,
+    summary character varying(5000)
 );
 
-create table if not exists instance_expiration (
-    id              bigserial not null,
-    created_at      timestamp not null,
-    updated_at      timestamp not null,
-    expiration_date timestamp not null,
-    instance_id     bigint    not null,
 
-    constraint instance_expiration_pkey primary key (id),
-    constraint uk_instance_expiration_instance_id unique (instance_id),
-    constraint fk_instance_id foreign key (instance_id) references instance
+--
+-- Name: protocol_id_seq; Type: SEQUENCE; Schema: visa; Owner: -
+--
+
+CREATE SEQUENCE visa.protocol_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: protocol; Type: TABLE; Schema: visa; Owner: -
+--
+
+CREATE TABLE visa.protocol (
+    id bigint DEFAULT nextval('visa.protocol_id_seq'::regclass) NOT NULL,
+    name character varying(100) NOT NULL,
+    port integer NOT NULL
 );
 
-create table if not exists instance_session (
-    id            bigint default nextval('instance_session_id_seq'::regclass) not null,
-    created_at    timestamp                                                   not null,
-    updated_at    timestamp                                                   not null,
-    connection_id varchar(150)                                                not null,
-    current       boolean                                                     not null,
-    instance_id   bigint                                                      not null,
 
-    constraint instance_session_pkey primary key (id),
-    constraint fk_instance_id foreign key (instance_id) references instance
+--
+-- Name: role_id_seq; Type: SEQUENCE; Schema: visa; Owner: -
+--
+
+CREATE SEQUENCE visa.role_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: role; Type: TABLE; Schema: visa; Owner: -
+--
+
+CREATE TABLE visa.role (
+    id bigint DEFAULT nextval('visa.role_id_seq'::regclass) NOT NULL,
+    description character varying(250),
+    name character varying(100) NOT NULL
 );
 
-create table if not exists instance_thumbnail (
-    id          bigserial not null,
-    created_at  timestamp not null,
-    updated_at  timestamp not null,
-    data        text      not null,
-    instance_id bigint    not null,
 
-    constraint instance_thumbnail_pkey primary key (id),
-    constraint uk_instance_thumbnail_instance_id unique (instance_id),
-    constraint fk_instance_id foreign key (instance_id) references instance
+--
+-- Name: schema_migrations; Type: TABLE; Schema: visa; Owner: -
+--
+
+CREATE TABLE visa.schema_migrations (
+    version character varying(255) NOT NULL
 );
 
-create table if not exists proposal (
-    id         bigint       not null,
-    identifier varchar(100) not null,
-    title      varchar(2000),
-    public_at  timestamp,
-    summary    varchar(5000),
 
-    constraint proposal_pkey primary key (id)
+--
+-- Name: security_group; Type: TABLE; Schema: visa; Owner: -
+--
+
+CREATE TABLE visa.security_group (
+    id bigint NOT NULL,
+    name character varying(250) NOT NULL
 );
 
-create table if not exists experiment (
-    id            varchar(32) not null,
-    instrument_id bigint      not null,
-    proposal_id   bigint      not null,
-    end_date      timestamp,
-    start_date    timestamp,
 
-    constraint experiment_pkey primary key (id),
-    constraint fk_instrument_id foreign key (instrument_id) references instrument,
-    constraint fk_proposal_id foreign key (proposal_id) references proposal
+--
+-- Name: security_group_filter; Type: TABLE; Schema: visa; Owner: -
+--
+
+CREATE TABLE visa.security_group_filter (
+    id bigint NOT NULL,
+    object_id bigint NOT NULL,
+    object_type character varying(255) NOT NULL,
+    security_group_id bigint NOT NULL
 );
 
-create table if not exists instance_experiment (
-    instance_id   bigint      not null,
-    experiment_id varchar(32) not null,
 
-    constraint instance_experiment_pkey primary key (experiment_id, instance_id),
-    constraint fk_experiment_id foreign key (experiment_id) references experiment,
-    constraint fk_instance_id foreign key (instance_id) references instance
+--
+-- Name: security_group_filter_id_seq; Type: SEQUENCE; Schema: visa; Owner: -
+--
+
+CREATE SEQUENCE visa.security_group_filter_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: security_group_filter_id_seq; Type: SEQUENCE OWNED BY; Schema: visa; Owner: -
+--
+
+ALTER SEQUENCE visa.security_group_filter_id_seq OWNED BY visa.security_group_filter.id;
+
+
+--
+-- Name: security_group_id_seq; Type: SEQUENCE; Schema: visa; Owner: -
+--
+
+CREATE SEQUENCE visa.security_group_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: security_group_id_seq; Type: SEQUENCE OWNED BY; Schema: visa; Owner: -
+--
+
+ALTER SEQUENCE visa.security_group_id_seq OWNED BY visa.security_group.id;
+
+
+--
+-- Name: system_notification; Type: TABLE; Schema: visa; Owner: -
+--
+
+CREATE TABLE visa.system_notification (
+    id bigint NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    level character varying(50) NOT NULL,
+    message character varying(4096) NOT NULL,
+    activated_at timestamp without time zone,
+    deleted_at timestamp without time zone
 );
 
-create table if not exists protocol (
-    id   bigint default nextval('protocol_id_seq'::regclass) not null,
-    name varchar(100)                                        not null,
-    port integer                                             not null,
 
-    constraint protocol_pkey primary key (id)
+--
+-- Name: system_notification_id_seq; Type: SEQUENCE; Schema: visa; Owner: -
+--
+
+CREATE SEQUENCE visa.system_notification_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: system_notification_id_seq; Type: SEQUENCE OWNED BY; Schema: visa; Owner: -
+--
+
+ALTER SEQUENCE visa.system_notification_id_seq OWNED BY visa.system_notification.id;
+
+
+--
+-- Name: user_role; Type: TABLE; Schema: visa; Owner: -
+--
+
+CREATE TABLE visa.user_role (
+    user_id character varying(250) NOT NULL,
+    role_id bigint NOT NULL,
+    expires_at timestamp without time zone
 );
 
-create table if not exists image_protocol (
-    image_id    bigint not null,
-    protocol_id bigint not null,
-    constraint fk_protocol_id foreign key (protocol_id) references protocol,
 
-    constraint fk_image_id foreign key (image_id) references image
-);
+--
+-- Name: users; Type: TABLE; Schema: visa; Owner: -
+--
 
-create table if not exists role (
-    id          bigint default nextval('role_id_seq'::regclass) not null,
-    description varchar(250),
-    name        varchar(100)                                    not null,
-
-    constraint role_pkey primary key (id),
-    constraint uk_role_name unique (name)
-);
-
-create table if not exists security_group (
-    id   bigserial    not null,
-    name varchar(250) not null,
-
-    constraint security_group_pkey primary key (id)
-);
-
-create table if not exists security_group_filter (
-    id                bigserial    not null,
-    object_id         bigint       not null,
-    object_type       varchar(255) not null,
-    security_group_id bigint       not null,
-
-    constraint security_group_filter_pkey primary key (id),
-    constraint fk_security_group_id foreign key (security_group_id) references security_group
-);
-
-create table if not exists system_notification (
-    id         bigserial     not null,
-    created_at timestamp     not null,
-    updated_at timestamp     not null,
-    level      varchar(50)   not null,
-    message    varchar(4096) not null,
-
-    constraint system_notification_pkey primary key (id)
-);
-
-create table if not exists users (
-    id             varchar(250) not null,
-    email          varchar(100),
-    first_name     varchar(100),
-    instance_quota integer      not null,
-    last_name      varchar(100) not null,
-    last_seen_at   timestamp,
+CREATE TABLE visa.users (
+    id character varying(250) NOT NULL,
+    affiliation character varying(255),
+    email character varying(100),
+    first_name character varying(100),
+    last_name character varying(100) NOT NULL,
+    last_seen_at timestamp without time zone,
+    instance_quota integer DEFAULT 2 NOT NULL,
     affiliation_id bigint,
-    activated_at   timestamp,
-    activated      timestamp,
-
-    constraint users_pkey primary key (id),
-    constraint fk_employer_id foreign key (affiliation_id) references employer
+    activated_at timestamp without time zone
 );
 
-create table if not exists experiment_user (
-    experiment_id varchar(32)  not null,
-    user_id       varchar(250) not null,
 
-    constraint experiment_user_pkey primary key (experiment_id, user_id),
-    constraint fk_experiment_id foreign key (experiment_id) references experiment,
-    constraint fk_users_id foreign key (user_id) references users
-);
+--
+-- Name: application_credential id; Type: DEFAULT; Schema: visa; Owner: -
+--
 
-create table if not exists instance_authentication_token (
-    id          bigint default nextval('instance_authentication_token_id_seq'::regclass) not null,
-    created_at  timestamp                                                                not null,
-    updated_at  timestamp                                                                not null,
-    token       varchar(250)                                                             not null,
-    instance_id bigint                                                                   not null,
-    user_id     varchar(250)                                                             not null,
+ALTER TABLE ONLY visa.application_credential ALTER COLUMN id SET DEFAULT nextval('visa.application_credential_id_seq'::regclass);
 
-    constraint instance_authentication_token_pkey primary key (id),
-    constraint fk_instance_id foreign key (instance_id) references instance,
-    constraint fk_users_id foreign key (user_id) references users
-);
 
-create table if not exists instance_command (
-    id          bigint default nextval('instance_command_id_seq'::regclass) not null,
-    created_at  timestamp                                                   not null,
-    updated_at  timestamp                                                   not null,
-    action_type varchar(50)                                                 not null,
-    message     varchar(255),
-    state       varchar(50)                                                 not null,
-    instance_id bigint                                                      not null,
-    user_id     varchar(250),
+--
+-- Name: configuration id; Type: DEFAULT; Schema: visa; Owner: -
+--
 
-    constraint instance_command_pkey primary key (id),
-    constraint fk_instance_id foreign key (instance_id) references instance,
-    constraint fk_users_id foreign key (user_id) references users
-);
+ALTER TABLE ONLY visa.configuration ALTER COLUMN id SET DEFAULT nextval('visa.configuration_id_seq'::regclass);
 
-create table if not exists instance_jupyter_session (
-    id          bigserial    not null,
-    created_at  timestamp    not null,
-    updated_at  timestamp    not null,
-    active      boolean      not null,
-    kernel_id   varchar(150) not null,
-    session_id  varchar(150) not null,
-    instance_id bigint       not null,
-    user_id     varchar(250) not null,
 
-    constraint instance_jupyter_session_pkey primary key (id),
-    constraint fk_instance_id foreign key (instance_id) references instance,
-    constraint fk_users_id foreign key (user_id) references users
-);
+--
+-- Name: instance_expiration id; Type: DEFAULT; Schema: visa; Owner: -
+--
 
-create table if not exists instance_member (
-    id          bigint default nextval('instance_member_id_seq'::regclass) not null,
-    created_at  timestamp                                                  not null,
-    updated_at  timestamp                                                  not null,
-    role        varchar(255)                                               not null,
-    user_id     varchar(250)                                               not null,
-    instance_id bigint                                                     not null,
+ALTER TABLE ONLY visa.instance_expiration ALTER COLUMN id SET DEFAULT nextval('visa.instance_expiration_id_seq'::regclass);
 
-    constraint instance_member_pkey primary key (id),
-    constraint fk_instance_id foreign key (instance_id) references instance,
-    constraint fk_users_id foreign key (user_id) references users
-);
 
-create table if not exists instance_session_member (
-    id                  bigserial    not null,
-    created_at          timestamp    not null,
-    updated_at          timestamp    not null,
-    active              boolean      not null,
-    last_interaction_at timestamp,
-    last_seen_at        timestamp,
-    role                varchar(150) not null,
-    session_id          varchar(150) not null,
-    instance_session_id bigint       not null,
-    user_id             varchar(250) not null,
+--
+-- Name: instance_jupyter_session id; Type: DEFAULT; Schema: visa; Owner: -
+--
 
-    constraint instance_session_member_pkey primary key (id),
-    constraint fk_instance_session_id foreign key (instance_session_id) references instance_session,
-    constraint fk_users_id foreign key (user_id) references users
-);
+ALTER TABLE ONLY visa.instance_jupyter_session ALTER COLUMN id SET DEFAULT nextval('visa.instance_jupyter_session_id_seq'::regclass);
 
-create table if not exists instrument_scientist (
-    instrument_id bigint       not null,
-    user_id       varchar(250) not null,
 
-    constraint instrument_responsible_pkey primary key (instrument_id, user_id),
-    constraint fk_instrument_id foreign key (instrument_id) references instrument,
-    constraint fk_users_id foreign key (user_id) references users
-);
+--
+-- Name: instance_session_member id; Type: DEFAULT; Schema: visa; Owner: -
+--
 
-create table if not exists user_role (
-    user_id varchar(250) not null,
-    role_id bigint       not null,
+ALTER TABLE ONLY visa.instance_session_member ALTER COLUMN id SET DEFAULT nextval('visa.instance_session_member_id_seq'::regclass);
 
-    constraint fk_role_id foreign key (role_id) references role,
-    constraint fk_users_id foreign key (user_id) references users
-);
 
-create table if not exists instance_attribute (
-    id          bigint default nextval('instance_attribute_id_seq'::regclass) not null,
-    created_at  timestamp                                                     not null,
-    updated_at  timestamp                                                     not null,
-    name        varchar(255)                                                  not null,
-    value       varchar(255)                                                  not null,
-    instance_id bigint                                                        not null,
+--
+-- Name: instance_thumbnail id; Type: DEFAULT; Schema: visa; Owner: -
+--
 
-    constraint instance_attribute_pkey primary key (id),
-    constraint fk_instance_id foreign key (instance_id) references instance
-);
+ALTER TABLE ONLY visa.instance_thumbnail ALTER COLUMN id SET DEFAULT nextval('visa.instance_thumbnail_id_seq'::regclass);
+
+
+--
+-- Name: plan id; Type: DEFAULT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.plan ALTER COLUMN id SET DEFAULT nextval('visa.plan_id_seq'::regclass);
+
+
+--
+-- Name: security_group id; Type: DEFAULT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.security_group ALTER COLUMN id SET DEFAULT nextval('visa.security_group_id_seq'::regclass);
+
+
+--
+-- Name: security_group_filter id; Type: DEFAULT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.security_group_filter ALTER COLUMN id SET DEFAULT nextval('visa.security_group_filter_id_seq'::regclass);
+
+
+--
+-- Name: system_notification id; Type: DEFAULT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.system_notification ALTER COLUMN id SET DEFAULT nextval('visa.system_notification_id_seq'::regclass);
+
+
+--
+-- Name: application_credential application_credential_pkey; Type: CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.application_credential
+    ADD CONSTRAINT application_credential_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: configuration configuration_pkey; Type: CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.configuration
+    ADD CONSTRAINT configuration_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: employer employer_pkey; Type: CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.employer
+    ADD CONSTRAINT employer_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: experiment experiment_pkey; Type: CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.experiment
+    ADD CONSTRAINT experiment_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: experiment_user experiment_user_pkey; Type: CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.experiment_user
+    ADD CONSTRAINT experiment_user_pkey PRIMARY KEY (experiment_id, user_id);
+
+
+--
+-- Name: flavour_limit flavour_limit_pkey; Type: CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.flavour_limit
+    ADD CONSTRAINT flavour_limit_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: flavour flavour_pkey; Type: CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.flavour
+    ADD CONSTRAINT flavour_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: image image_pkey; Type: CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.image
+    ADD CONSTRAINT image_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: instance_attribute instance_attribute_pkey; Type: CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.instance_attribute
+    ADD CONSTRAINT instance_attribute_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: instance_authentication_token instance_authentication_token_pkey; Type: CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.instance_authentication_token
+    ADD CONSTRAINT instance_authentication_token_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: instance_command instance_command_pkey; Type: CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.instance_command
+    ADD CONSTRAINT instance_command_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: instance_experiment instance_experiment_pkey; Type: CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.instance_experiment
+    ADD CONSTRAINT instance_experiment_pkey PRIMARY KEY (experiment_id, instance_id);
+
+
+--
+-- Name: instance_expiration instance_expiration_pkey; Type: CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.instance_expiration
+    ADD CONSTRAINT instance_expiration_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: instance_jupyter_session instance_jupyter_session_pkey; Type: CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.instance_jupyter_session
+    ADD CONSTRAINT instance_jupyter_session_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: instance_member instance_member_pkey; Type: CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.instance_member
+    ADD CONSTRAINT instance_member_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: instance instance_pkey; Type: CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.instance
+    ADD CONSTRAINT instance_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: instance_session_member instance_session_member_pkey; Type: CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.instance_session_member
+    ADD CONSTRAINT instance_session_member_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: instance_session instance_session_pkey; Type: CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.instance_session
+    ADD CONSTRAINT instance_session_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: instance_thumbnail instance_thumbnail_pkey; Type: CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.instance_thumbnail
+    ADD CONSTRAINT instance_thumbnail_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: instrument instrument_pkey; Type: CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.instrument
+    ADD CONSTRAINT instrument_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: instrument_scientist instrument_responsible_pkey; Type: CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.instrument_scientist
+    ADD CONSTRAINT instrument_responsible_pkey PRIMARY KEY (instrument_id, user_id);
+
+
+--
+-- Name: plan plan_pkey; Type: CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.plan
+    ADD CONSTRAINT plan_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: proposal proposal_pkey; Type: CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.proposal
+    ADD CONSTRAINT proposal_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: protocol protocol_pkey; Type: CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.protocol
+    ADD CONSTRAINT protocol_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: role role_pkey; Type: CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.role
+    ADD CONSTRAINT role_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: schema_migrations schema_migrations_pkey; Type: CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.schema_migrations
+    ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
+
+
+--
+-- Name: security_group_filter security_group_filter_pkey; Type: CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.security_group_filter
+    ADD CONSTRAINT security_group_filter_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: security_group security_group_pkey; Type: CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.security_group
+    ADD CONSTRAINT security_group_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: system_notification system_notification_pkey; Type: CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.system_notification
+    ADD CONSTRAINT system_notification_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: instance_expiration uk_instance_expiration_instance_id; Type: CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.instance_expiration
+    ADD CONSTRAINT uk_instance_expiration_instance_id UNIQUE (instance_id);
+
+
+--
+-- Name: instance_thumbnail uk_instance_thumbnail_instance_id; Type: CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.instance_thumbnail
+    ADD CONSTRAINT uk_instance_thumbnail_instance_id UNIQUE (instance_id);
+
+
+--
+-- Name: role uk_role_name; Type: CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.role
+    ADD CONSTRAINT uk_role_name UNIQUE (name);
+
+
+--
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users fk_employer_id; Type: FK CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.users
+    ADD CONSTRAINT fk_employer_id FOREIGN KEY (affiliation_id) REFERENCES visa.employer(id);
+
+
+--
+-- Name: experiment_user fk_experiment_id; Type: FK CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.experiment_user
+    ADD CONSTRAINT fk_experiment_id FOREIGN KEY (experiment_id) REFERENCES visa.experiment(id);
+
+
+--
+-- Name: instance_experiment fk_experiment_id; Type: FK CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.instance_experiment
+    ADD CONSTRAINT fk_experiment_id FOREIGN KEY (experiment_id) REFERENCES visa.experiment(id);
+
+
+--
+-- Name: flavour_limit fk_flavour_id; Type: FK CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.flavour_limit
+    ADD CONSTRAINT fk_flavour_id FOREIGN KEY (flavour_id) REFERENCES visa.flavour(id);
+
+
+--
+-- Name: plan fk_flavour_id; Type: FK CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.plan
+    ADD CONSTRAINT fk_flavour_id FOREIGN KEY (flavour_id) REFERENCES visa.flavour(id);
+
+
+--
+-- Name: plan fk_image_id; Type: FK CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.plan
+    ADD CONSTRAINT fk_image_id FOREIGN KEY (image_id) REFERENCES visa.image(id);
+
+
+--
+-- Name: image_protocol fk_image_id; Type: FK CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.image_protocol
+    ADD CONSTRAINT fk_image_id FOREIGN KEY (image_id) REFERENCES visa.image(id);
+
+
+--
+-- Name: instance_command fk_instance_id; Type: FK CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.instance_command
+    ADD CONSTRAINT fk_instance_id FOREIGN KEY (instance_id) REFERENCES visa.instance(id);
+
+
+--
+-- Name: instance_expiration fk_instance_id; Type: FK CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.instance_expiration
+    ADD CONSTRAINT fk_instance_id FOREIGN KEY (instance_id) REFERENCES visa.instance(id);
+
+
+--
+-- Name: instance_thumbnail fk_instance_id; Type: FK CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.instance_thumbnail
+    ADD CONSTRAINT fk_instance_id FOREIGN KEY (instance_id) REFERENCES visa.instance(id);
+
+
+--
+-- Name: instance_experiment fk_instance_id; Type: FK CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.instance_experiment
+    ADD CONSTRAINT fk_instance_id FOREIGN KEY (instance_id) REFERENCES visa.instance(id);
+
+
+--
+-- Name: instance_member fk_instance_id; Type: FK CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.instance_member
+    ADD CONSTRAINT fk_instance_id FOREIGN KEY (instance_id) REFERENCES visa.instance(id);
+
+
+--
+-- Name: instance_authentication_token fk_instance_id; Type: FK CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.instance_authentication_token
+    ADD CONSTRAINT fk_instance_id FOREIGN KEY (instance_id) REFERENCES visa.instance(id);
+
+
+--
+-- Name: instance_session fk_instance_id; Type: FK CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.instance_session
+    ADD CONSTRAINT fk_instance_id FOREIGN KEY (instance_id) REFERENCES visa.instance(id);
+
+
+--
+-- Name: instance_jupyter_session fk_instance_id; Type: FK CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.instance_jupyter_session
+    ADD CONSTRAINT fk_instance_id FOREIGN KEY (instance_id) REFERENCES visa.instance(id);
+
+
+--
+-- Name: instance_attribute fk_instance_id; Type: FK CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.instance_attribute
+    ADD CONSTRAINT fk_instance_id FOREIGN KEY (instance_id) REFERENCES visa.instance(id);
+
+
+--
+-- Name: instance_session_member fk_instance_session_id; Type: FK CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.instance_session_member
+    ADD CONSTRAINT fk_instance_session_id FOREIGN KEY (instance_session_id) REFERENCES visa.instance_session(id);
+
+
+--
+-- Name: instrument_scientist fk_instrument_id; Type: FK CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.instrument_scientist
+    ADD CONSTRAINT fk_instrument_id FOREIGN KEY (instrument_id) REFERENCES visa.instrument(id);
+
+
+--
+-- Name: experiment fk_instrument_id; Type: FK CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.experiment
+    ADD CONSTRAINT fk_instrument_id FOREIGN KEY (instrument_id) REFERENCES visa.instrument(id);
+
+
+--
+-- Name: instance fk_plan_id; Type: FK CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.instance
+    ADD CONSTRAINT fk_plan_id FOREIGN KEY (plan_id) REFERENCES visa.plan(id);
+
+
+--
+-- Name: experiment fk_proposal_id; Type: FK CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.experiment
+    ADD CONSTRAINT fk_proposal_id FOREIGN KEY (proposal_id) REFERENCES visa.proposal(id);
+
+
+--
+-- Name: image_protocol fk_protocol_id; Type: FK CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.image_protocol
+    ADD CONSTRAINT fk_protocol_id FOREIGN KEY (protocol_id) REFERENCES visa.protocol(id);
+
+
+--
+-- Name: user_role fk_role_id; Type: FK CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.user_role
+    ADD CONSTRAINT fk_role_id FOREIGN KEY (role_id) REFERENCES visa.role(id);
+
+
+--
+-- Name: security_group_filter fk_security_group_id; Type: FK CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.security_group_filter
+    ADD CONSTRAINT fk_security_group_id FOREIGN KEY (security_group_id) REFERENCES visa.security_group(id);
+
+
+--
+-- Name: experiment_user fk_users_id; Type: FK CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.experiment_user
+    ADD CONSTRAINT fk_users_id FOREIGN KEY (user_id) REFERENCES visa.users(id);
+
+
+--
+-- Name: instance_authentication_token fk_users_id; Type: FK CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.instance_authentication_token
+    ADD CONSTRAINT fk_users_id FOREIGN KEY (user_id) REFERENCES visa.users(id);
+
+
+--
+-- Name: instance_command fk_users_id; Type: FK CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.instance_command
+    ADD CONSTRAINT fk_users_id FOREIGN KEY (user_id) REFERENCES visa.users(id);
+
+
+--
+-- Name: instance_jupyter_session fk_users_id; Type: FK CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.instance_jupyter_session
+    ADD CONSTRAINT fk_users_id FOREIGN KEY (user_id) REFERENCES visa.users(id);
+
+
+--
+-- Name: instance_member fk_users_id; Type: FK CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.instance_member
+    ADD CONSTRAINT fk_users_id FOREIGN KEY (user_id) REFERENCES visa.users(id);
+
+
+--
+-- Name: instance_session_member fk_users_id; Type: FK CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.instance_session_member
+    ADD CONSTRAINT fk_users_id FOREIGN KEY (user_id) REFERENCES visa.users(id);
+
+
+--
+-- Name: instrument_scientist fk_users_id; Type: FK CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.instrument_scientist
+    ADD CONSTRAINT fk_users_id FOREIGN KEY (user_id) REFERENCES visa.users(id);
+
+
+--
+-- Name: user_role fk_users_id; Type: FK CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.user_role
+    ADD CONSTRAINT fk_users_id FOREIGN KEY (user_id) REFERENCES visa.users(id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+
+
+--
+-- Dbmate schema migrations
+--
+
+INSERT INTO visa.schema_migrations (version) VALUES
+    ('20220314151039'),
+    ('20220324082055'),
+    ('20220406071949');

@@ -4,7 +4,7 @@ INSERT INTO role (description, name) VALUES ('Instrument Control role', 'INSTRUM
 INSERT INTO role (description, name) VALUES ('Instrument Scientist role', 'INSTRUMENT_SCIENTIST');
 INSERT INTO role (description, name) VALUES ('IT Support role', 'IT_SUPPORT');
 INSERT INTO role (description, name) VALUES ('Scientific Computing role', 'SCIENTIFIC_COMPUTING');
-
+INSERT INTO role (description, name) VALUES ('Guest Role', 'GUEST');
 
 INSERT INTO protocol (name, port) VALUES ('RDP', 3389);
 INSERT INTO protocol (name, port) VALUES ('GUACD', 4822);
