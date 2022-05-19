@@ -196,6 +196,9 @@ The analytics environment variables are associated to the use of a [Matamo](http
 |---|---|---|
 | VISA_ACCOUNTS_IDP |   |  URL to the OpenID discovery endpoint (eg https://my.idp.server/.well-known/openid-configuration) which will then be used to validate a token. This should be matched to the [login URL provided above](deployment_environment_variables_login) which is used to generate the token. |
 | VISA_ACCOUNTS_CLIENT_ID |   | The Client ID as configured by the OpenID provider  |
+| VISA_ACCOUNTS_IDP_USERINFO_SIGNED_RESPONSE_ALG | null | Allows you to set the encoding algorithm of the UserInfo Response (eg RS256) if enabled in the IDP |
+| VISA_ACCOUNTS_IDP_TIMEOUT_MS | 2500 | Sets the HTTP request timeout (in milliseconds) to the IDP |
+| VISA_ACCOUNTS_IDP_CACHE_EXPIRATION_S | 0 | Specifies the expiration in seconds of cached IDP responses. This allows you to reduce the number of calls to the IDP and returns the same response for a given token (UserInfo or error). By default the cache is not activated (a cache expiration of > 0s is required to activate the cache). |
 
 ### Attribute provider
 
