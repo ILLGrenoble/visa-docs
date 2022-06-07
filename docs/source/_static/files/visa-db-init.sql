@@ -141,7 +141,8 @@ CREATE TABLE visa.flavour (
     cpu real NOT NULL,
     memory integer NOT NULL,
     name character varying(250) NOT NULL,
-    deleted boolean DEFAULT false NOT NULL
+    deleted boolean DEFAULT false NOT NULL,
+    credits integer DEFAULT 1
 );
 
 
@@ -371,6 +372,44 @@ CREATE SEQUENCE visa.instance_expiration_id_seq
 --
 
 ALTER SEQUENCE visa.instance_expiration_id_seq OWNED BY visa.instance_expiration.id;
+
+
+--
+-- Name: instance_extension_request; Type: TABLE; Schema: visa; Owner: -
+--
+
+CREATE TABLE visa.instance_extension_request (
+    id bigint NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    comments character varying(4000),
+    extension_date timestamp without time zone,
+    handled_on timestamp without time zone,
+    handler_comments character varying(4000),
+    original_termination_date timestamp without time zone NOT NULL,
+    state character varying(50) NOT NULL,
+    handler_id character varying(255),
+    instance_id bigint NOT NULL
+);
+
+
+--
+-- Name: instance_extension_request_id_seq; Type: SEQUENCE; Schema: visa; Owner: -
+--
+
+CREATE SEQUENCE visa.instance_extension_request_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: instance_extension_request_id_seq; Type: SEQUENCE OWNED BY; Schema: visa; Owner: -
+--
+
+ALTER SEQUENCE visa.instance_extension_request_id_seq OWNED BY visa.instance_extension_request.id;
 
 
 --
@@ -794,6 +833,13 @@ ALTER TABLE ONLY visa.instance_expiration ALTER COLUMN id SET DEFAULT nextval('v
 
 
 --
+-- Name: instance_extension_request id; Type: DEFAULT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.instance_extension_request ALTER COLUMN id SET DEFAULT nextval('visa.instance_extension_request_id_seq'::regclass);
+
+
+--
 -- Name: instance_jupyter_session id; Type: DEFAULT; Schema: visa; Owner: -
 --
 
@@ -944,6 +990,14 @@ ALTER TABLE ONLY visa.instance_experiment
 
 ALTER TABLE ONLY visa.instance_expiration
     ADD CONSTRAINT instance_expiration_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: instance_extension_request instance_extension_request_pkey; Type: CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.instance_extension_request
+    ADD CONSTRAINT instance_extension_request_pkey PRIMARY KEY (id);
 
 
 --
@@ -1363,6 +1417,22 @@ ALTER TABLE ONLY visa.user_role
 
 
 --
+-- Name: instance_extension_request fkim81ok55k4s80g0vms3aiyf03; Type: FK CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.instance_extension_request
+    ADD CONSTRAINT fkim81ok55k4s80g0vms3aiyf03 FOREIGN KEY (instance_id) REFERENCES visa.instance(id);
+
+
+--
+-- Name: instance_extension_request fkk8ybx3qlootemnkmu1jmk34m1; Type: FK CONSTRAINT; Schema: visa; Owner: -
+--
+
+ALTER TABLE ONLY visa.instance_extension_request
+    ADD CONSTRAINT fkk8ybx3qlootemnkmu1jmk34m1 FOREIGN KEY (handler_id) REFERENCES visa.users(id);
+
+
+--
 -- PostgreSQL database dump complete
 --
 
@@ -1374,4 +1444,5 @@ ALTER TABLE ONLY visa.user_role
 INSERT INTO visa.schema_migrations (version) VALUES
     ('20220314151039'),
     ('20220324082055'),
-    ('20220406071949');
+    ('20220406071949'),
+    ('20220601141717');

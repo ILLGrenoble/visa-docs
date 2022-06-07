@@ -32,7 +32,7 @@ A full list of features provided by VISA is as follows:
 
 - **Quotas based on user role**
 
-  Staff and Visitors are allowed to have a different number of instances running in parallel
+  Staff and Visitors are given different quotas (instance Credits) allowing them to have different number of instances running in parallel.
 
 - **Scientific and technical support roles**
 
