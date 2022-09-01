@@ -257,7 +257,7 @@ The syslog environment variables are optional: if none are set then log messages
 
 | Environment variable | Default | Description |
 |---|---|---|
-| VISA_JUPYTER_PROXY_JUPYTER_PORT | 8888  |  The Jupyter Notebook Server, running on the instance, can be set up to run a specific port. This environmnet variable sets the oort of the Jupyter Notebook server (by default 8888). |
+| VISA_JUPYTER_PROXY_JUPYTER_PORT | 8888  |  The Jupyter Notebook Server, running on the instance, can be set up to run a specific port. This environmnet variable sets the port of the Jupyter Notebook server (by default 8888). |
 
 ### VISA API
 
