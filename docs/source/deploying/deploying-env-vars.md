@@ -141,7 +141,8 @@ The email appender is used only for error logs, to allow for quick notification 
 | VISA_NOTIFICATION_EMAIL_ADAPTER_PORT |   |  Specified the port of the SMTP server sending notification emails |
 | VISA_NOTIFICATION_EMAIL_ADAPTER_FROM_EMAIL_ADDRESS |   |  The address of the sender of emails to users |
 | VISA_NOTIFICATION_EMAIL_ADAPTER_BCC_EMAIL_ADDRESS | null  |  Optionally allows a BCC of the email to be sent to another address (a development account for example) |
-| VISA_NOTIFICATION_EMAIL_ADAPTER_ADMIN_EMAIL_ADDRESS |   |  An admin email address can be set to allow for the notification when instances are created.  |
+| VISA_NOTIFICATION_EMAIL_ADAPTER_ADMIN_EMAIL_ADDRESS |   |  An admin email address which is used in email templates as a support address for users. |
+| VISA_NOTIFICATION_EMAIL_ADAPTER_DEV_EMAIL_ADDRESS |   |  An email address of VISA developers can be set to allow for the notification when instances are created.  |
 | VISA_NOTIFICATION_EMAIL_ADAPTER_TEMPLATES_DIRECTORY | emails/templates/  |  To allow for the customisation of emails, the templates provided by VISA can be modified. This environment variable sets the location of the email templates. |
 
 ### Client configuration
