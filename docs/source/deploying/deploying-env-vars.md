@@ -89,7 +89,7 @@ The email appender is used only for error logs, to allow for quick notification 
 | VISA_CLOUD_APPLICATION_ID |   |  The application ID to authorise VISA API Server to use the OpenStack API |
 | VISA_CLOUD_APPLICATION_SECRET |   |  The application secret to authorise VISA API Server to use the OpenStack API |
 | VISA_CLOUD_ADDRESS_PROVIDER |   |  The address provider name for instances in OpenStack |
-| VISA_CLOUD_ADDRESS_PROVIDER_UUID |   |  The address privider UURD for instances in OpenStack |
+| VISA_CLOUD_ADDRESS_PROVIDER_UUID |   |  The address privider UUID for instances in OpenStack |
 | VISA_CLOUD_SERVER_NAME_PREFIX |   |  The prefix used for all instances created by VISA in OpenStack |
 
 (deployment_environment_variables_vdi)= 
