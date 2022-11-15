@@ -120,6 +120,8 @@ The following sections are the tables that need data to be injected and the stru
 |    title |     varchar(2000)
 |    public_at |  timestamp
 |    summary |   varchar(5000)
+|    doi |   varchar(2000)
+|    url |   varchar(2000)
 
 ### experiment
 
@@ -130,6 +132,9 @@ The following sections are the tables that need data to be injected and the stru
 |    proposal_id  | bigint   |   not null, constraint fk_proposal_id references proposal
 |    end_date    |  timestamp
 |    start_date   | timestamp
+|    title |     varchar(2000)
+|    doi |   varchar(2000)
+|    url |   varchar(2000)
 
 ### experiment_user
 
