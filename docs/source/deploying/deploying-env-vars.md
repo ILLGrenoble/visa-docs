@@ -180,6 +180,11 @@ The analytics environment variables are associated to the use of a [Matamo](http
 | VISA_CLIENT_CONFIG_DESKTOP_ALLOWED_CLIPBOARD_URL_HOSTS | []  |  By specifying the contents of the clipboard of the remote desktop, a remote application can make VISA open a popup in the client browser to request the user to open another URL (for example to open an electronic logbook, data portal, chat window). To ensure that the URL is acceptiblen, VISA is configured with a list of accepted hosts.  |
 | VISA_CLIENT_CONFIG_DESKTOP_KEYBOARD_LAYOUTS | []  |  Specifies the list of keyboard layouts that are proposed to a user, eg [{"layout":"en-gb-qwerty","name":"English (UK) keyboard","selected":true},{"layout":"fr-fr-azerty","name":"French keyboard (azerty)","selected":false}]  |
 
+#### Experiments
+
+| Environment variable | Default | Description |
+|---|---|---|
+| VISA_CLIENT_CONFIG_INCLUDE_OPEN_DATA |  false |  Enables open data to be included in search results, by comparing the public_at date in the proposals table to the current date |
 
 (deployment_environment_variables_accounts)= 
 ## VISA Accounts
