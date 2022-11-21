@@ -131,6 +131,12 @@ The email appender is used only for error logs, to allow for quick notification 
 | VISA_INSTANCE_USER_MAX_INACTIVITY_DURATION_HOURS | 96  |  Sets the maximum time of inactivity of an instance before it is deleted, specified in hours, for *normal* users. |
 | VISA_INSTANCE_STAFF_MAX_INACTIVITY_DURATION_HOURS | 192  |  Sets the maximum time of inactivity of an instance before it is deleted, specified in hours, for *staff* users. |
 
+### User instance quota
+
+| Environment variable | Default | Description |
+|---|---|---|
+| VISA_INSTANCE_USER_DEFAULT_QUOTA | 2  | Sets the default number of instances a user can create (for users created by VISA independently of ETL processes) |
+
 (deployment_environment_variables_user_notification)= 
 ### User notifications
 
