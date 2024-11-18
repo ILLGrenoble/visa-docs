@@ -75,7 +75,7 @@ VISA provides the capability of sending emails (to the dev team for example) whe
 
 - `VISA_LOGGING_TIMEZONE`
 
-  Previously it was possible to set a logging timezone for all loggers. This is no longer possible and must be set in individual log formats.
+  **Deprecated.** Previously it was possible to set a logging timezone for all loggers. This is no longer possible and must be set in individual log formats.
 
 ## Reverse proxy changes
 
@@ -138,6 +138,12 @@ Note that there is another difference for the api-server websockets: they are no
 
 You no longer need to explicity expose the legacy port `8087`.
 
+## PostgreSQL version
+
+The minimum version of PostgreSQL is currently 9.6 but shortly this will be increased to 12.0. Quarkus officially only supports versions of 12.0 and above but the current version of VISA still works with 9.6.
+
+Please update your database version accordingly.
+
 ## Docker Container Registry
 
 The new Docker containers for VISA are now available on the GitHub Container Register (ghcr.io):
@@ -151,9 +157,9 @@ The new Docker containers for VISA are now available on the GitHub Container Reg
 
 ## Upgrade procedure
 
-The upgrade of VISA has no non-reversable impacts on the database so rolling back to 2.X versions is simple. We do however recommend saving copies of the environment variable files and any Ngix (or equivalent) configuration files.
+The upgrade of VISA has no non-reversible impacts on the database so rolling back to 2.X versions is simple. We do however recommend saving copies of the environment variable files and any Nginx (or equivalent) configuration files.
 
-Once modifications (outlined above) to the environment variables and Nginx congifuration files are done then the process of updating the docker image versions is trivial.
+Once modifications (outlined above) to the environment variables and Nginx configuration files are done then the process of updating the Docker image versions is trivial.
 
 ## Version Rollback
 
