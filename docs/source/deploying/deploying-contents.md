@@ -12,6 +12,7 @@ deploying-initial-tests.md
 deploying-load-balancing.md
 deploying-user-documentation.md
 deploying-monitoring.md
+deploying-upgrade-from-version-2-to-3.md
 ```
 
 This section describes how to deploy the VISA platform.
