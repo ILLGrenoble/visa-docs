@@ -14,7 +14,6 @@ The VISA platform is highly configurable through an array of environment variabl
 | VISA_SERVER_PORT | 8080  | The port on which to run the REST API HTTP server  |
 | VISA_CORS_ORIGIN |  * | Sets the CORS origin of the HTTP server  |
 | VISA_ROOT_URL |   | The root URL of the application, used for user notifications |
-| VISA_GRAPHQL_TRACING_ENABLED | false  | Allows debugging of GraphQL requests |
 
 
 ### Database
@@ -30,7 +29,6 @@ The VISA platform is highly configurable through an array of environment variabl
 | Environment variable | Default | Description |
 |---|---|---|
 | VISA_LOGGING_LEVEL |  INFO |  The application logging level |
-| VISA_LOGGING_TIMEZONE |  CET | The timezone for the formatting the time in the application log  |
 
 (deployment_environment_variables_email_appender)=
 #### Email appender
@@ -41,29 +39,34 @@ The email appender is used only for error logs, to allow for quick notification 
 |---|---|---|
 | VISA_LOGGING_EMAIL_APPENDER_HOST |   | The host of the SMTP server for logging via email   |
 | VISA_LOGGING_EMAIL_APPENDER_PORT | 25  |  The port of the SMTP server |
-| VISA_LOGGING_EMAIL_APPENDER_SSL |  false | Use of SSL with the SMTP server  |
 | VISA_LOGGING_EMAIL_APPENDER_TLS |  false | Use of TLS with the SMTP server |
+| VISA_LOGGING_EMAIL_APPENDER_START_TLS |  DISABLED | Use of Start-TLS with the SMTP server |
 | VISA_LOGGING_EMAIL_APPENDER_RECIPIENT_ADDRESS |   |  Address to send log emails to (a developer account for example)  |
 | VISA_LOGGING_EMAIL_APPENDER_FROM_ADDRESS |   |  Address to use as the sender of the log emails |
 | VISA_LOGGING_EMAIL_SUBJECT |  | Subject (prefix) to use for log emails |
+| VISA_LOGGING_EMAIL_APPENDER_MOCKED | false | Mocks sending emails |
+| VISA_LOGGING_EMAIL_MAX_ERRORS | 50 | Maximum number of errors per email |
 
 #### File appender
 
 | Environment variable | Default | Description |
 |---|---|---|
+| VISA_LOGGING_FILE_ENABLED |  true | Explicitly enables the logging to file a file |
 | VISA_LOGGING_FILE_THRESHOLD |  INFO | The logging level for the file |
-| VISA_LOGGING_FILE_MAX_FILE_SIZE |  100MB |  Maximum log file size |
+| VISA_LOGGING_FILE_MAX_FILE_SIZE |  100M |  Maximum log file size |
 | VISA_LOGGING_FILE_DIRECTORY |   |  The directory of where the log file is stored  |
-| VISA_LOGGING_FILE_FORMAT |  | The format of the log messages, eg "%d{yyyy-MM-dd HH:mm:ss.SSS,CET} %-5level [%-40.40logger{10}] - %msg%n" |
+| VISA_LOGGING_FILE_FORMAT |  | The format of the log messages, eg "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%-40.40c{3.}] - %s%e%n" |
 | VISA_LOGGING_FILE_ARCHIVED_FILE_COUNT | 1  | The number of archive files to keep  |
 
 #### Syslog
 
 | Environment variable | Default | Description |
 |---|---|---|
-| VISA_LOGGING_SYSLOG_HOST |   | The Syslog host  |
-| VISA_LOGGING_SYSLOG_PORT | 514  | The Syslog port  |
-| VISA_LOGGING_SYSLOG_FACILITY | local0  |  The Syslog facility|
+| VISA_LOGGING_SYSLOG_ENABLED | true  | Whether Syslog is enabled |
+| VISA_LOGGING_SYSLOG_TYPE | rfc3164  | Syslog protocol (rfc3164 or rfc5425) |
+| VISA_LOGGING_SYSLOG_ENDPOINT |   | The Syslog endpoint (host:port)  |
+| VISA_LOGGING_SYSLOG_APP_NAME |   | The Syslog app name |
+| VISA_LOGGING_SYSLOG_FACILITY | local-use-0  |  The Syslog facility|
 | VISA_LOGGING_SYSLOG_THRESHOLD | INFO  |  The Syslog logging level |
 | VISA_LOGGING_SYSLOG_FORMAT |   |  The Syslog log format |
 
@@ -77,8 +80,13 @@ The email appender is used only for error logs, to allow for quick notification 
 | VISA_SECURITY_GROUP_SERVICE_CLIENT_URL |   |  The VISA Security Group Service URL eg http://security-groups:8090/api/securitygroups |
 | VISA_SECURITY_GROUP_SERVICE_CLIENT_AUTH_TOKEN |   |  The authentication token to send to the Security Group service |
 
+### Cloud Provider
+| VISA_CLOUD_SERVER_NAME_PREFIX |   |  The prefix used for all instances created by VISA |
+| VISA_DEFAULT_CLOUD_PROVIDER_TYPE |  openstack | Specifies the default cloud provider type (openstack or web) |
+| VISA_DEFAULT_CLOUD_PROVIDER_NAME |  Default |  Specifies the name of the default cloud provider |
+
 (deployment_environment_variables_openstack)=
-### OpenStack cloud provider
+#### OpenStack
 
 | Environment variable | Default | Description |
 |---|---|---|
@@ -90,7 +98,12 @@ The email appender is used only for error logs, to allow for quick notification 
 | VISA_CLOUD_APPLICATION_SECRET |   |  The application secret to authorise VISA API Server to use the OpenStack API |
 | VISA_CLOUD_ADDRESS_PROVIDER |   |  The address provider name for instances in OpenStack |
 | VISA_CLOUD_ADDRESS_PROVIDER_UUID |   |  The address privider UUID for instances in OpenStack |
-| VISA_CLOUD_SERVER_NAME_PREFIX |   |  The prefix used for all instances created by VISA in OpenStack |
+
+(deployment_environment_variables_web)=
+#### Web
+
+| VISA_CLOUD_WEB_PROVIDER_URL |   | The URL to access the Web Cloud Provider |
+| VISA_CLOUD_WEB_PROVIDER_AUTH_TOKEN |   |  Authentication token for access to the Web Cloud Provider |
 
 (deployment_environment_variables_vdi)= 
 ### Remote Desktop (virtual desktop infrastructure VDI)
@@ -98,11 +111,6 @@ The email appender is used only for error logs, to allow for quick notification 
 | Environment variable | Default | Description |
 |---|---|---|
 | VISA_VDI_ENABLED |  true | Enables the remote desktops in VISA  |
-| VISA_VDI_HOST | localhost  |  The hostname on which the Remote Desktop HTTP server is listening on |
-| VISA_VDI_PORT | 8087  |  The port on which to run the Remote Desktop HTTP server |
-| VISA_VDI_CORS_ORIGIN |   |  The CORS origin of the Remote Desktop HTTP server |
-| VISA_VDI_PING_TIMEOUT | 15000  |  A simple message is sent regularly between VISA and each front-end client using a remote desktop to ensure that the connection is still active. This environment variable sets the timeout for having a response to a ping message between the API Server and the client UI: the connection is closed to the instance if this time is exceeded.  |
-| VISA_VDI_PING_INTERVAL | 3000  |  The interval for sending ping messages to the client UI |
 | VISA_VDI_REDIS_ENABLED |  false |  Enables a Redis pub-sub server (this is required for load balancing, to enable messaging between the applications) |
 | VISA_VDI_REDIS_URL |   |  The URL of the Redis server (required for load balancing) |
 | VISA_VDI_REDIS_PASSWORD |   | The password for the Redis server (required for load balancing)  |
@@ -120,7 +128,6 @@ The email appender is used only for error logs, to allow for quick notification 
 | Environment variable | Default | Description |
 |---|---|---|
 | VISA_SCHEDULER_ENABLED |  true | The scheduler of VISA is used to update the instance states, run instance commands (start, stop, reboot, etc), perform lifetime management, etc. This option enables the schedule. In a load-balanced enviroment you must ensure that only one server has an active scheduler. |
-| VISA_SCHEDULER_TASK_MANAGER_NUMBER_THREADS |  5 |  This specified the number of threads to use to run instance commands. Note that for a specific instance, only one command is run at a time. |
 
 ### Instance lifetime management
 
@@ -137,6 +144,19 @@ The email appender is used only for error logs, to allow for quick notification 
 |---|---|---|
 | VISA_INSTANCE_USER_DEFAULT_QUOTA | 2  | Sets the default number of instances a user can create (for users created by VISA independently of ETL processes) |
 
+### Instance activity retention period
+
+| Environment variable | Default | Description |
+|---|---|---|
+| VISA_INSTANCE_ACTIVITY_RETENTION_PERIOD_DAYS | 0  | Specifies how long user instance activity (mouse or keyboard activity) is stored in the database (0 implies forever) |
+
+### Instance port check timeout
+
+| Environment variable | Default | Description |
+|---|---|---|
+| VISA_INSTANCE_PORT_CHECK_TIMEOUT_MS | 1000  | Specifies how long VISA will check the availability of a port on an instance (to determine which services are active) |
+
+
 (deployment_environment_variables_user_notification)= 
 ### User notifications
 
@@ -145,11 +165,14 @@ The email appender is used only for error logs, to allow for quick notification 
 | VISA_NOTIFICATION_EMAIL_ADAPTER_ENABLED | false  | Users are notified by email when their instance will be deleted (24 hours before) or when then they have been added as a member of someone else's instance. This environment variable enables this mechanism.  |
 | VISA_NOTIFICATION_EMAIL_ADAPTER_HOST |   |  Specifies the SMTP host for sending notification emails |
 | VISA_NOTIFICATION_EMAIL_ADAPTER_PORT |   |  Specified the port of the SMTP server sending notification emails |
+| VISA_NOTIFICATION_EMAIL_ADAPTER_APPENDER_TLS |  false | Use of TLS with the SMTP server |
+| VISA_NOTIFICATION_EMAIL_ADAPTER_START_TLS |  DISABLED | Use of Start-TLS with the SMTP server |
 | VISA_NOTIFICATION_EMAIL_ADAPTER_FROM_EMAIL_ADDRESS |   |  The address of the sender of emails to users |
 | VISA_NOTIFICATION_EMAIL_ADAPTER_BCC_EMAIL_ADDRESS | null  |  Optionally allows a BCC of the email to be sent to another address (a development account for example) |
 | VISA_NOTIFICATION_EMAIL_ADAPTER_ADMIN_EMAIL_ADDRESS |   |  An admin email address which is used in email templates as a support address for users. |
 | VISA_NOTIFICATION_EMAIL_ADAPTER_DEV_EMAIL_ADDRESS |   |  An email address of VISA developers can be set to allow for the notification when instances are created.  |
 | VISA_NOTIFICATION_EMAIL_ADAPTER_TEMPLATES_DIRECTORY | emails/templates/  |  To allow for the customisation of emails, the templates provided by VISA can be modified. This environment variable sets the location of the email templates. |
+| VISA_NOTIFICATION_EMAIL_ADAPTER_MOCKED | false | Mocks sending emails |
 
 ### Client configuration
 
@@ -176,8 +199,9 @@ The analytics environment variables are associated to the use of a [Matamo](http
 
 | Environment variable | Default | Description |
 |---|---|---|
-| VISA_CLIENT_CONFIG_ANALYTICS_ENABLED | false  |  Enables the use of a Matamo analytics server. |
-| VISA_CLIENT_CONFIG_ANALYTICS_SITE_ID |   |  Specified the Site ID for VISA in the analytics server. |
+| VISA_CLIENT_CONFIG_ANALYTICS_ENABLED | false  |  Enables the use of a Matamo analytics server |
+| VISA_CLIENT_CONFIG_ANALYTICS_URL |   |  Specifies the URL of the Matamp analytics server |
+| VISA_CLIENT_CONFIG_ANALYTICS_SITE_ID |   |  Specified the Site ID for VISA in the analytics server |
 
 #### Desktop
 
@@ -263,13 +287,6 @@ The syslog environment variables are optional: if none are set then log messages
 | VISA_JUPYTER_PROXY_LOG_SYSLOG_HOST |   |  The Syslog host (optional) |
 | VISA_JUPYTER_PROXY_LOG_SYSLOG_PORT |   |  The Syslog port (optional) |
 | VISA_JUPYTER_PROXY_LOG_SYSLOG_APP_NAME |   | Application name used by Syslog (optional) |
-
-(deployment_environment_variables_jupyter_proxy_port)=
-### Jupyter
-
-| Environment variable | Default | Description |
-|---|---|---|
-| VISA_JUPYTER_PROXY_JUPYTER_PORT | 8888  |  The Jupyter Notebook Server, running on the instance, can be set up to run a specific port. This environmnet variable sets the port of the Jupyter Notebook server (by default 8888). |
 
 ### VISA API
 
