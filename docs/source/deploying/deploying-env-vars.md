@@ -114,7 +114,9 @@ The email appender is used only for error logs, to allow for quick notification 
 | VISA_VDI_REDIS_ENABLED |  false |  Enables a Redis pub-sub server (this is required for load balancing, to enable messaging between the applications) |
 | VISA_VDI_REDIS_URL |   |  The URL of the Redis server (required for load balancing) |
 | VISA_VDI_REDIS_PASSWORD |   | The password for the Redis server (required for load balancing)  |
-| VISA_VDI_REDIS_DATABASE |  0 |  the database ID of the Redis server (required for load balancing) |
+| VISA_VDI_REDIS_DATABASE |  0 |  The database ID of the Redis server (required for load balancing) |
+| VISA_VDI_REDIS_TLS_ENABLED | false | Specifies whether to use TLS to connect to the Redis server |
+| VISA_VDI_REDIS_TLS_TRUST_ALL | false | If TLS enabled, specifies whether to trust all certificates |
 | VISA_VDI_OWNER_DISCONNECTION_POLICY | DISCONNECT_ALL  |  Determines the policy of how to handle shared connections when the owner disconnects. Possible values are DISCONNECT_ALL (disconnecting shared connections) and LOCK_ROOM (to keep connections open but disable all interactions) |
 | VISA_VDI_CLEANUP_SESSIONS_ON_STARTUP | false  | As an admin option, desktop sessions can be cleaned when starting the server (if any are left open in the database). If load-balancing, only one server should do this.  |
 | VISA_VDI_SIGNATURE_PRIVATE_KEY_PATH |   | The path to the private key used for the VISA PAM module to encrypt connection details to a remote desktop  |
