@@ -6,19 +6,19 @@ The virtual machines created by VISA are built on an OpenStack Cloud instrastruc
 
 ## Remote Desktops
 
-Apache Guacamole via XRDP is used to provider the Remote Desktop functionality. This has proved efficient and stable over long periods. 
+Apache Guacamole via XRDP is used to provide the standard Remote Desktop functionality. This has proved efficient and stable over long periods. 
 
-The ILL is currently in the process of developping an equivalent protocol that should improve the latency due to the remote connection.
+[WebX](https://github.com/ILLGrenoble/webx-engine), developed at the ILL, binds directly the the X11 session in Linux instances and provides an alternative protocol to Guacamole. WebX optimises CPU and network usage, reducing the effect of latency on a connection and the load on the instance.
 
 ## Source code
 
 The source code for VISA is publicly available on [GitHub](https://github.com/ILLGrenoble). 
 
-The main VISA REST API and Remote Desktop connections are managed by a Java application based on the Dropwizard framework.
+The main VISA REST API and Remote Desktop connections are managed by a Java application based on the Quarkus framework.
 
 HTTP requests are proxied to the JupyterLab server running on each instance using a Node.JS HTTP proxy.
 
-The VISA user interface is a single page web applicaiton built using Angular 10.
+The VISA user interface is a single page web applicaiton built using Angular 16.
 
 ## Database
 
